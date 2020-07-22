@@ -65,8 +65,7 @@ class _MainScreenState extends State<MainScreen> {
       children: <Widget>[
         Scaffold(
             //extendBodyBehindAppBar: true,
-            drawer: SideMenu(onSignOut, handelCampaignOption, handelHomeOption,
-                null, handelFragmentOption),
+            drawer: SideMenu(onSignOut, null, handelFragmentOption),
             appBar: AppBar(
               backgroundColor: Colors.black,
               elevation: 0,
