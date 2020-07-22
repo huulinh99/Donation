@@ -1,7 +1,7 @@
 
 import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart';
 
-import 'file:///E:/Donation_System/donation_system/lib/screens/main/main_screen.dart';
+import 'package:donationsystem/screens//main/main_screen.dart';
 import 'package:donationsystem/screens/login/login_screen.dart';
 import 'package:donationsystem/services/Auth.dart';
 import 'package:flutter/cupertino.dart';
