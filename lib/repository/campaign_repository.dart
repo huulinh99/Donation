@@ -3,10 +3,12 @@ import 'dart:convert';
 
 import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 abstract class BaseCampaignRepository{
   Future<List<Campaign>> fetchCampaign();
-  List<Campaign> fetchFakeCampaign();
+  Future<List<Campaign>> fetchCampaignByFilter(String filterStatus);
+  //List<Campaign> fetchFakeCampaign();
 
 }
 
@@ -17,7 +19,7 @@ class CampaignRepository  implements BaseCampaignRepository{
     List<Campaign> tmpList = null;
     try{
       final response = await http.get(
-          'https://donation-system-api.herokuapp.com/api/campaign/CampaignsNewest/4');
+          'https://swdapi.azurewebsites.net/api/campaign/CampaignsNewest/4');
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         tmpList = new List();
@@ -33,71 +35,103 @@ class CampaignRepository  implements BaseCampaignRepository{
     }
   }
 
-  @override
-  List<Campaign> fetchFakeCampaign() {
-    List<Campaign> tmpList = new List();
-    tmpList.add(
-      new Campaign(
-        lastName: "Huynh",
-        firstName: "Phu",
-        description: "Lỏemasdjgasdhjasgdkgqywtouqwetnqiyuwetiuyqwtdiasyud",
-        startDate: "2020-08-05",
-        endDate: "2020-08-25",
-        careless: 150,
-        campaignId: 1,
-        campaignName: "SADASDASDASDASDASD"
-      )
-    );
-    tmpList.add(
-        new Campaign(
-            lastName: "Huynh",
-            firstName: "Phu",
-            description: "Lỏemasdjgasdhjasgdkgqywtouqwetnqiyuwetiuyqwtdiasyud",
-            startDate: "2020-08-05",
-            endDate: "2020-08-25",
-            careless: 150,
-            campaignId: 5,
-            campaignName: "SADASDASDASDASDASD"
-        )
-    );
-    tmpList.add(
-        new Campaign(
-            lastName: "Huxcvxcvynh",
-            firstName: "Pxcvvxcvxcvxhu",
-            description: "Lỏemasdjgasdhjasgdkgqywtouqwetnqiyuwetiuyqwtdiasyud",
-            startDate: "2020-08-05",
-            endDate: "2020-08-25",
-            careless: 150,
-            campaignId: 4,
-            campaignName: "SADASDASDASDASDASD"
-        )
-    );
-    tmpList.add(
-        new Campaign(
-            lastName: "Hu213123ynh",
-            firstName: "Ph123123u",
-            description: "Lỏemasdjgasdhjasgdkgqywtouqwetnqiyuwetiuyqwtdiasyud",
-            startDate: "2020-08-05",
-            endDate: "2020-08-25",
-            careless: 150,
-            campaignId: 2,
-            campaignName: "SADASDASDASDASDASD"
-        )
-    );
-    tmpList.add(
-        new Campaign(
-            lastName: "ádasdsd",
-            firstName: "Phádasdasdasdasdasdu",
-            description: "Lỏemasdjgasdhjasgdkgqywtouqwetnqiyuwetiuyqwtdiasyud",
-            startDate: "2020-08-05",
-            endDate: "2020-08-25",
-            careless: 150,
-            campaignId: 3,
-            campaignName: "SADASDASDASDASDASD"
-        )
-    );
-    return tmpList;
+   Future<List<Campaign>> fetchCampaignByFilter(String filterStatus) async {
+    String url = "";
+    if(filterStatus == "Newest"){
+      url = "https://swdapi.azurewebsites.net/api/campaign/CampaignsNewest/-1";
+    }else if(filterStatus == "Oldest"){
+      url = "https://swdapi.azurewebsites.net/api/campaign/CampaignsOldest/-1";
+    }else{
+      url = "https://swdapi.azurewebsites.net/api/campaign/CampaignMostFavourite/-1";
+    }
+    print(url);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      List data = json.decode(response.body);
+      final List<Campaign> listCard = new List();
+      data.forEach((element) {
+        listCard.add(
+            Campaign.fromJson(element)
+        );
+      });
+      return listCard;
+    } else {
+      throw Exception('Failed to load album');
+    }
   }
+
+  Future<String> addCampaign(Campaign campaign) async {
+    String url = 'https://swdapi.azurewebsites.net/api/campaign';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json = jsonEncode(campaign);
+    Response response = await post(url, headers: headers, body: json);
+  }
+
+  // @override
+  // List<Campaign> fetchFakeCampaign() {
+  //   List<Campaign> tmpList = new List();
+  //   tmpList.add(
+  //     new Campaign(
+  //       lastName: "Huynh",
+  //       firstName: "Phu",
+  //       description: "Lỏemasdjgasdhjasgdkgqywtouqwetnqiyuwetiuyqwtdiasyud",
+  //       startDate: "2020-08-05",
+  //       endDate: "2020-08-25",
+  //       careless: 150,
+  //       campaignId: 1,
+  //       campaignName: "SADASDASDASDASDASD"
+  //     )
+  //   );
+  //   tmpList.add(
+  //       new Campaign(
+  //           lastName: "Huynh",
+  //           firstName: "Phu",
+  //           description: "Lỏemasdjgasdhjasgdkgqywtouqwetnqiyuwetiuyqwtdiasyud",
+  //           startDate: "2020-08-05",
+  //           endDate: "2020-08-25",
+  //           careless: 150,
+  //           campaignId: 5,
+  //           campaignName: "SADASDASDASDASDASD"
+  //       )
+  //   );
+  //   tmpList.add(
+  //       new Campaign(
+  //           lastName: "Huxcvxcvynh",
+  //           firstName: "Pxcvvxcvxcvxhu",
+  //           description: "Lỏemasdjgasdhjasgdkgqywtouqwetnqiyuwetiuyqwtdiasyud",
+  //           startDate: "2020-08-05",
+  //           endDate: "2020-08-25",
+  //           careless: 150,
+  //           campaignId: 4,
+  //           campaignName: "SADASDASDASDASDASD"
+  //       )
+  //   );
+  //   tmpList.add(
+  //       new Campaign(
+  //           lastName: "Hu213123ynh",
+  //           firstName: "Ph123123u",
+  //           description: "Lỏemasdjgasdhjasgdkgqywtouqwetnqiyuwetiuyqwtdiasyud",
+  //           startDate: "2020-08-05",
+  //           endDate: "2020-08-25",
+  //           careless: 150,
+  //           campaignId: 2,
+  //           campaignName: "SADASDASDASDASDASD"
+  //       )
+  //   );
+  //   tmpList.add(
+  //       new Campaign(
+  //           lastName: "ádasdsd",
+  //           firstName: "Phádasdasdasdasdasdu",
+  //           description: "Lỏemasdjgasdhjasgdkgqywtouqwetnqiyuwetiuyqwtdiasyud",
+  //           startDate: "2020-08-05",
+  //           endDate: "2020-08-25",
+  //           careless: 150,
+  //           campaignId: 3,
+  //           campaignName: "SADASDASDASDASDASD"
+  //       )
+  //   );
+  //   return tmpList;
+  // }
 
 
 }

@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:donationsystem/models/campaign/campaign.dart';
+import 'package:donationsystem/repository/campaign_repository.dart';
 import 'package:donationsystem/screens/campaign/campaign_screen_view_model.dart';
 import 'package:donationsystem/screens/campaign_detail/campaign_detail_screen.dart';
 import 'package:donationsystem/screens/custom_widgets/card/campaign_card.dart';
@@ -18,17 +19,20 @@ class CampaignScreen extends StatefulWidget {
 }
 class CampaignScreenState extends State<CampaignScreen> {
   CampaignScreenState();
+  CampaignRepository campaignRepository;
   final CampaignScreenViewModel campaignScreenViewModel = new CampaignScreenViewModel();
 
   @override
   void initState() {
     // TODO: implement initState
+    campaignRepository = new CampaignRepository();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    fetchCampaign().then((value) => campaignScreenViewModel.listCampaignSink.add(value));
+    campaignScreenViewModel.listCampaignSink.add(null);
+    campaignRepository.fetchCampaignByFilter(widget.filterStatus).then((value) => campaignScreenViewModel.listCampaignSink.add(value));
     return Container(
       padding: EdgeInsets.only(top: 4, bottom: 55),
       child:
@@ -42,31 +46,31 @@ class CampaignScreenState extends State<CampaignScreen> {
     );
   }
 
-  fetchCampaign() async {
-    String url = "";
-    campaignScreenViewModel.listCampaignSink.add(null);
-    if(widget.filterStatus == "Newest"){
-      url = "https://donation-system-api.herokuapp.com/api/campaign/CampaignsNewest/-1";
-    }else if(widget.filterStatus == "Oldest"){
-      url = "https://donation-system-api.herokuapp.com/api/campaign/CampaignsOldest/-1";
-    }else{
-      url = "https://donation-system-api.herokuapp.com/api/campaign/CampaignsNewest/-1";
-    }
-    print(url);
-    final response = await http.get(url);
-    if (response.statusCode == 200) {
-      List data = json.decode(response.body);
-      final List<Campaign> listCard = new List();
-      data.forEach((element) {
-        listCard.add(
-            Campaign.fromJson(element)
-        );
-      });
-      return listCard;
-    } else {
-      throw Exception('Failed to load album');
-    }
-  }
+  // fetchCampaign() async {
+  //   String url = "";
+  //   campaignScreenViewModel.listCampaignSink.add(null);
+  //   if(widget.filterStatus == "Newest"){
+  //     url = "https://donation-system-api.herokuapp.com/api/campaign/CampaignsNewest/-1";
+  //   }else if(widget.filterStatus == "Oldest"){
+  //     url = "https://donation-system-api.herokuapp.com/api/campaign/CampaignsOldest/-1";
+  //   }else{
+  //     url = "https://donation-system-api.herokuapp.com/api/campaign/CampaignsNewest/-1";
+  //   }
+  //   print(url);
+  //   final response = await http.get(url);
+  //   if (response.statusCode == 200) {
+  //     List data = json.decode(response.body);
+  //     final List<Campaign> listCard = new List();
+  //     data.forEach((element) {
+  //       listCard.add(
+  //           Campaign.fromJson(element)
+  //       );
+  //     });
+  //     return listCard;
+  //   } else {
+  //     throw Exception('Failed to load album');
+  //   }
+  // }
 
   renderCampaign() {
     return StreamBuilder(

@@ -45,7 +45,7 @@ class _GiftCardState extends State<GiftCard> {
                   Container(
                     margin: EdgeInsets.only(top: 10),
                     child: Text(
-                      widget.gift.name.toUpperCase(),
+                      widget.gift.giftName.toUpperCase(),
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,

@@ -17,7 +17,6 @@ class CampaignDetailScreen extends StatefulWidget {
   CampaignDetailScreenState createState() => CampaignDetailScreenState();
 }
 class CampaignDetailScreenState extends State<CampaignDetailScreen> {
-
   GiftRepository giftRepository;
   CampaignScreenViewModel viewModel;
   @override
@@ -27,17 +26,16 @@ class CampaignDetailScreenState extends State<CampaignDetailScreen> {
 
     giftRepository = new GiftRepository();
     viewModel = new CampaignScreenViewModel();
-
-    viewModel.listGiftSink.add(giftRepository.fetchFakeGift(1));
+    
   }
 
   @override
   Widget build(BuildContext context) {
+    giftRepository.fetchGift(widget.currentCampaign.campaignId).then((value) => viewModel.listGiftSink.add(value));
     return Scaffold(
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-
           decoration: BoxDecoration(
               color: Colors.white
           ),
@@ -204,7 +202,6 @@ class CampaignDetailScreenState extends State<CampaignDetailScreen> {
   }
 
   Future<String> donateGift(int giftID){
-    print("RUN");
     showDialog(
         context: context,
         builder: (_) => AlertDialog(

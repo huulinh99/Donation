@@ -1,9 +1,12 @@
 
 import 'package:donationsystem/models/user/user.dart';
+import 'package:donationsystem/models/category/category.dart';
 import 'package:donationsystem/screens/main/main_screen_view_model.dart';
 import 'package:donationsystem/screens/profile/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 typedef void onSignOut();
 
@@ -90,11 +93,22 @@ class SideMenuState extends State<SideMenu> {
     );
   }
 
-  renderSubMenu(){
+  List category = new List();
+  final List<String> item = new List();
+  Future<String> getCategory() async {
+    print("sdfsdf");
+    var empData = await http.get("https://swdapi.azurewebsites.net/api/Category");
+    var jsonData = json.decode(empData.body);
+    for (var tri in jsonData) {
+      Category category = Category.fromJson(tri);
+      item.add(category.name);
+    }
+  }
 
+  renderSubMenu(){
     final List<Widget> tmp = new List();
+    getCategory();
     if(clickCategory){
-      final List<String> item = ['Caster', 'Gaming', 'Youtuber', 'Reviewer', 'Singer'];
       item.forEach((item) {
         tmp.add(
           Container(

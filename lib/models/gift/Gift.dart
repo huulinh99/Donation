@@ -1,20 +1,24 @@
 class Gift {
-  final int ID;
+  final int id;
   final int campaignID;
-  final String name;
+  final String giftName;
   final double amount;
   final String description;
+  final String image;
+  final int quantity;
 
 
-  Gift({this.ID, this.campaignID, this.name, this.amount, this.description});
+  Gift({this.id, this.campaignID, this.giftName, this.amount, this.description, this.image, this.quantity});
 
   factory Gift.fromJson(Map<String, dynamic> json) {
     return Gift(
-      ID: json['ID'],
+      id: json['id'],
       campaignID: json['campaignID'],
-      name: json['name'],
+      giftName: json['giftName'],
       amount: json['amount'],
       description: json['description'],
+      image: json['image'],
+      quantity: json['quantity']
     );
   }
 

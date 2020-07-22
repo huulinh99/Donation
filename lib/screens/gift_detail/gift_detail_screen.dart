@@ -1,4 +1,5 @@
 import 'package:donationsystem/models/gift/Gift.dart';
+import 'package:donationsystem/repository/gift_repository.dart';
 import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +14,13 @@ class GiftDetailScreen extends StatefulWidget{
 }
 
 class GiftDetailScreenState extends State<GiftDetailScreen>{
-  
+  GiftRepository giftRepository;
   bool isDonated;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    giftRepository = new GiftRepository();
     isDonated = false;
   }
 
@@ -40,7 +42,7 @@ class GiftDetailScreenState extends State<GiftDetailScreen>{
                 padding: EdgeInsets.only(left: 15, top: 15, bottom: 5),
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  widget.gift.name,
+                  "${widget.gift.giftName}",
                   style: TextStyle(
                       decoration: TextDecoration.none,
                       color: Colors.black,
@@ -103,8 +105,11 @@ class GiftDetailScreenState extends State<GiftDetailScreen>{
                             isDonated = false;
                           });
                         }).whenComplete(() {
+                          String campaignId = "";
+                          giftRepository.getCampaign(widget.gift.id).then((value) => campaignId=value);
+                          //giftRepository.donate(int.parse(campaignId, money, userDonate);
                           Navigator.pop(context);
-                          widget.donateGift(widget.gift.ID);
+                          widget.donateGift(widget.gift.id);
                         });
                       },
                       color: Colors.black,
