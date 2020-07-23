@@ -1,32 +1,26 @@
 import 'package:donationsystem/screens/login/login_view_model.dart';
-import 'package:donationsystem/screens/signup/sign-up-screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  final Future<String> Function(String, String) signIn;
-  final Future<String> Function() signInWithGoogle;
-
-  LoginScreen(this.signIn, this.signInWithGoogle);
+class SignUpScreen extends StatefulWidget {
+  SignUpScreen();
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  SignUpScreenState createState() => SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  LoginViewModel viewModel;
+class SignUpScreenState extends State<SignUpScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    viewModel = new LoginViewModel();
-    emailController
-        .addListener(() => viewModel.emailSink.add(emailController.text));
-    passwordController
-        .addListener(() => viewModel.passwordSink.add(passwordController.text));
+    // viewModel = new LoginViewModel();
+    // emailController.addListener(() => viewModel.emailSink.add(emailController.text));
+    // passwordController.addListener(() => viewModel.passwordSink.add(passwordController.text));
   }
 
   @override
@@ -48,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
         children: <Widget>[
           Container(
             margin: EdgeInsets.all(20),
-            child: Text("Login",
+            child: Text("Sign Up",
                 style: TextStyle(fontSize: 25, color: Colors.white)),
           ),
           Container(
@@ -56,14 +50,31 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 38,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(5)),
-              child: TextFormField(
-                controller: emailController,
-                textAlignVertical: TextAlignVertical.center,
-                style: TextStyle(color: Colors.black, fontSize: 16),
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(14),
-                    focusedBorder: InputBorder.none,
-                    prefixIcon: Icon(Icons.account_box, color: Colors.black)),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      "Email",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 8,
+                    child: TextFormField(
+                      controller: emailController,
+                      textAlignVertical: TextAlignVertical.center,
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(14),
+                        focusedBorder: InputBorder.none,
+                        prefixText: "Username",
+
+                        //prefixIcon: Icon(Icons.account_box, color: Colors.black)
+                      ),
+                    ),
+                  )
+                ],
               )),
           Container(
               height: 38,
@@ -97,54 +108,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(4),
                           side: BorderSide(color: Colors.white)),
-                      onPressed: () => {
-                            widget.signIn(
-                                emailController.text, passwordController.text)
-                          },
-                      child:
-                          Text('Login', style: TextStyle(color: Colors.white))))
+                      onPressed: () => {},
+                      child: Text('Sign Up',
+                          style: TextStyle(color: Colors.white))))
             ],
           ),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: Text(
-              "Or Sign In With",
-              style: TextStyle(color: Colors.white, fontSize: 15),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              RaisedButton(
-                onPressed: () => {widget.signInWithGoogle()},
-                child: Text(
-                  'Google',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
-          ),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: Text(
-              "Don't have an account ?",
-              style: TextStyle(color: Colors.white, fontSize: 14),
-            ),
-          ),
-          Container(
-              margin: EdgeInsets.all(10),
-              child: GestureDetector(
-                onTap: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignUpScreen()),
-                  )
-                },
-                child: Text(
-                  'Sign Up',
-                  style: TextStyle(color: Colors.blue),
-                ),
-              )),
         ],
       ),
     ));
