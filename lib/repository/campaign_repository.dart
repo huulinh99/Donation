@@ -1,23 +1,21 @@
-
 import 'dart:convert';
 
 import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
-abstract class BaseCampaignRepository{
+abstract class BaseCampaignRepository {
   Future<List<Campaign>> fetchCampaign();
   Future<List<Campaign>> fetchCampaignByFilter(String filterStatus);
   //List<Campaign> fetchFakeCampaign();
 
 }
 
-class CampaignRepository  implements BaseCampaignRepository{
-
+class CampaignRepository implements BaseCampaignRepository {
   @override
   Future<List<Campaign>> fetchCampaign() async {
     List<Campaign> tmpList = null;
-    try{
+    try {
       final response = await http.get(
           'https://swdapi.azurewebsites.net/api/campaign/CampaignsNewest/4');
       if (response.statusCode == 200) {
@@ -28,16 +26,17 @@ class CampaignRepository  implements BaseCampaignRepository{
         });
         return tmpList;
       }
-    }catch(e){
+    } catch (e) {
       print(e);
-    }finally{
+    } finally {
       return tmpList;
     }
   }
+
   Campaign campaign;
   @override
-   Future<Campaign> fetchNewestCampaign() async {     
-    try{
+  Future<Campaign> fetchNewestCampaign() async {
+    try {
       final response = await http.get(
           'https://swdapi.azurewebsites.net/api/campaign/CampaignsNewest/1');
       if (response.statusCode == 200) {
@@ -45,21 +44,22 @@ class CampaignRepository  implements BaseCampaignRepository{
         campaign = Campaign.fromJson(data[0]);
         return campaign;
       }
-    }catch(e){
+    } catch (e) {
       print(e);
-    }finally{
+    } finally {
       return campaign;
     }
   }
 
-   Future<List<Campaign>> fetchCampaignByFilter(String filterStatus) async {
+  Future<List<Campaign>> fetchCampaignByFilter(String filterStatus) async {
     String url = "";
-    if(filterStatus == "Newest"){
+    if (filterStatus == "Newest") {
       url = "https://swdapi.azurewebsites.net/api/campaign/CampaignsNewest/-1";
-    }else if(filterStatus == "Oldest"){
+    } else if (filterStatus == "Oldest") {
       url = "https://swdapi.azurewebsites.net/api/campaign/CampaignsOldest/-1";
-    }else{
-      url = "https://swdapi.azurewebsites.net/api/campaign/CampaignMostFavourite/-1";
+    } else {
+      url =
+          "https://swdapi.azurewebsites.net/api/campaign/CampaignMostFavourite/-1";
     }
     print(url);
     final response = await http.get(url);
@@ -67,9 +67,7 @@ class CampaignRepository  implements BaseCampaignRepository{
       List data = json.decode(response.body);
       final List<Campaign> listCard = new List();
       data.forEach((element) {
-        listCard.add(
-            Campaign.fromJson(element)
-        );
+        listCard.add(Campaign.fromJson(element));
       });
       return listCard;
     } else {
@@ -149,6 +147,5 @@ class CampaignRepository  implements BaseCampaignRepository{
   //   );
   //   return tmpList;
   // }
-
 
 }

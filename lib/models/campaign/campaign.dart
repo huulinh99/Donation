@@ -8,20 +8,21 @@ class Campaign {
   final String endDate;
   final String description;
   final String image;
+  final double amount;
+  final double currentlyMoney;
 
   Campaign(
-      {
-        this.campaignId,
-        this.campaignName,
-        this.description,
-        this.careless,
-        this.endDate,
-        this.firstName,
-        this.lastName,
-        this.startDate,
-        this.image
-      }
-    );
+      {this.campaignId,
+      this.campaignName,
+      this.description,
+      this.careless,
+      this.endDate,
+      this.firstName,
+      this.lastName,
+      this.startDate,
+      this.amount,
+      this.currentlyMoney,
+      this.image});
 
   factory Campaign.fromJson(Map<String, dynamic> json) {
     return Campaign(
@@ -33,8 +34,9 @@ class Campaign {
       lastName: json['lastName'],
       startDate: json['startDate'],
       endDate: json['endDate'],
+      amount: json["amount"],
+      currentlyMoney: json["currentlyMoney"],
       image: json['image'],
     );
   }
-
 }
