@@ -1,21 +1,21 @@
-
 import 'dart:convert';
 
 import 'package:donationsystem/models/user/user.dart';
 import 'package:http/http.dart' as http;
 
-abstract class BaseCategoryRepository{
+abstract class BaseCategoryRepository {
   Future<List<User>> fetchUserMostFavourite();
+  Future<String> insertUser(User user);
+  Future<User> fetchUserByEmail(String email);
 }
 
-class UserRepository  implements BaseCategoryRepository{
-
+class UserRepository implements BaseCategoryRepository {
   @override
   Future<List<User>> fetchUserMostFavourite() async {
     List<User> tmpList = null;
-    try{
-      final response = await http.get(
-          'https://swdapi.azurewebsites.net/api/Category');
+    try {
+      final response =
+          await http.get('https://swdapi.azurewebsites.net/api/Category');
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         tmpList = new List();
@@ -24,25 +24,44 @@ class UserRepository  implements BaseCategoryRepository{
         });
         return tmpList;
       }
-    }catch(e){
+    } catch (e) {
       print(e);
-    }finally{
+    } finally {
       return tmpList;
     }
   }
 
+  @override
+  Future<User> fetchUserByEmail(String email) async {
+    User user;
+    print(email);
+
+    final response = await http
+        .get('https://swdapi.azurewebsites.net/api/user/CurrentUser/$email');
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      user = User.fromJson(data[0]);
+    }
+    return user;
+  }
 
   @override
-   Future<User> fetchUserByEmail(String email) async {    
-      User user; 
-      print(email);
-      final response = await http.get(
-          'https://swdapi.azurewebsites.net/api/user/CurrentUser/$email');        
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        user = User.fromJson(data[0]);
-      }
-      return user;
-      
+  Future<String> insertUser(User user) async {
+    String url = 'https://swdapi.azurewebsites.net/api/user';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json = jsonEncode(user);
+    final response = await http.post(url, headers: headers, body: json);
+    int statusCode = response.statusCode;
+    String body = response.body;
+    return body;
   }
+
+  // Future<String> _addActor(AccountDTO dto) async {
+  //   String url = 'https://prm391-project.herokuapp.com/api/accounts';
+  //   Map<String, String> headers = {"Content-type": "application/json"};
+  //   String json = jsonEncode(dto);
+  //   Response response = await post(url, headers: headers, body: json);
+  //   int statusCode = response.statusCode;
+  //   String body = response.body;
+  // }
 }

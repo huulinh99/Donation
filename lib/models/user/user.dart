@@ -1,19 +1,28 @@
 class User {
-  final int id;
-  final String email;
-  final String firstName;
-  final String lastName;
-  final int roleId;
-  final int count;
+  int id;
+  String email;
+  String firstName;
+  String lastName;
+  int roleId;
+  int count;
+  double balance;
 
-  User({
-      this.id,
+  User(
+      {this.id,
       this.email,
       this.firstName,
       this.lastName,
       this.roleId,
-      this.count
-  });
+      this.count,
+      this.balance});
+
+  User.id(
+      {this.email,
+      this.firstName,
+      this.lastName,
+      this.roleId,
+      this.count,
+      this.balance});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -22,16 +31,15 @@ class User {
         firstName: json['firstName'],
         lastName: json['lastName'],
         roleId: json['roleId'],
-        count: json['count']
-    );
+        count: json['count']);
   }
 
   Map toJson() => {
-     'id': id,
-     'email': email,
-     'firstName': firstName,
-     'lastName': lastName,
-     'roleId': roleId,
-     'count': count
-   };
+        'id': id,
+        'email': email,
+        'firstName': firstName,
+        'lastName': lastName,
+        'roleId': roleId,
+        'count': count
+      };
 }
