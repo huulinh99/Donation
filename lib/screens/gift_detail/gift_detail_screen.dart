@@ -123,7 +123,7 @@ class GiftDetailScreenState extends State<GiftDetailScreen>{
                           await giftRepository.getCampaign(widget.gift.id).then((value) => campaignId=value.campaignId.toString());
                           print(campaignId);
                           print(widget.gift.amount);
-                          print(user.toString());
+                          print(user.toString() + " user api");
                           giftRepository.donate(int.parse(campaignId), widget.gift.amount, user);
                           Navigator.pop(context);
                           widget.donateGift(widget.gift.id);

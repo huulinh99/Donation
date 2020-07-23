@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:donationsystem/models/campaign/campaign.dart';
+import 'package:donationsystem/models/custom_user/custom_user.dart';
 import 'package:donationsystem/models/user/user.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,15 +34,46 @@ class UserRepository implements BaseCategoryRepository {
   }
 
   @override
+  Future<List<Campaign>> fetchCampaignForUser(String userId) async {
+    List<Campaign> tmpList = null;
+    try {
+      final response =
+          await http.get('https://swdapi.azurewebsites.net/api/campaign/CampaignOfUser/$userId');
+      if (response.statusCode == 200) {
+        List<dynamic> data = json.decode(response.body);
+        tmpList = new List();
+        data.forEach((element) {
+          tmpList.add(Campaign.fromJson(element));
+        });
+        return tmpList;
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      return tmpList;
+    }
+  }
+
+  @override
   Future<User> fetchUserByEmail(String email) async {
     User user;
-    print(email);
-
     final response = await http
         .get('https://swdapi.azurewebsites.net/api/user/CurrentUser/$email');
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
       user = User.fromJson(data[0]);
+    }
+    return user;
+  }
+
+  @override
+  Future<UserCustom> fetchUserProfile(String email) async {
+    UserCustom user;
+    final response = await http
+        .get('https://swdapi.azurewebsites.net/api/user/TotalCampaign/$email');
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      user = UserCustom.fromJson(data[0]);
     }
     return user;
   }

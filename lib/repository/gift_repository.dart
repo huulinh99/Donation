@@ -48,7 +48,7 @@ class GiftRepository  implements BaseGiftRepository{
   }
 
   Future<String> donate(int campaignId, double money, User userDonate) async {
-    String url = 'https://swdapi.azurewebsites.net/api/GiftDetail/Donate/$campaignId/$money';
+    String url = 'https://swdapi.azurewebsites.net/api/GiftDetail/$campaignId/$money';
     Map<String, String> headers = {"Content-type": "application/json"};
     String json = jsonEncode(userDonate);
     Response response = await put(url, headers: headers, body: json);
