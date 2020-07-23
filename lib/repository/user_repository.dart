@@ -55,18 +55,6 @@ class UserRepository implements BaseCategoryRepository {
     String body = response.body;
     return body;
   }
-  
-   Future<User> fetchUserByEmail(String email) async {    
-      User user; 
-      print(email);
-      final response = await http.get(
-          'https://swdapi.azurewebsites.net/api/user/CurrentUser/$email');        
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        user = User.fromJson(data[0]);
-      }
-      return user;  
-  }
 
   // Future<String> _addActor(AccountDTO dto) async {
   //   String url = 'https://prm391-project.herokuapp.com/api/accounts';

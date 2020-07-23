@@ -202,37 +202,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               children: [
                 Container(
-                    height: 300,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(bottom: 5, top: 8),
-                          child: Text("Money",
-                              textAlign: TextAlign.left,
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.black)),
-                        ),
-                        Container(
-                          height: 35,
-                          decoration: BoxDecoration(
-                              color: Colors.black12,
-                              borderRadius: BorderRadius.circular(5)),
-                          child: TextFormField(
-                            textAlignVertical: TextAlignVertical.center,
-                            style: TextStyle(color: Colors.black, fontSize: 16),
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(12),
-                              focusedBorder: InputBorder.none,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 5, top: 8),
+                      child: Text("Money",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 16, color: Colors.black)),
+                    ),
+                    Container(
+                      height: 35,
+                      decoration: BoxDecoration(
+                          color: Colors.black12,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: TextFormField(
+                        textAlignVertical: TextAlignVertical.center,
+                        style: TextStyle(color: Colors.black, fontSize: 16),
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(12),
+                          focusedBorder: InputBorder.none,
 
-                              //prefixIcon: Icon(Icons.account_box, color: Colors.black)
-                            ),
-                          ),
-                        )
-                      ],
-                    )),
+                          //prefixIcon: Icon(Icons.account_box, color: Colors.black)
+                        ),
+                      ),
+                    )
+                  ],
+                )),
                 Container(
                     alignment: Alignment.centerLeft,
                     child: Column(
