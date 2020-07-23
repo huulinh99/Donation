@@ -1,28 +1,60 @@
+import 'dart:convert';
+
 import 'package:donationsystem/models/campaign/campaign.dart';
+import 'package:donationsystem/models/custom_user/custom_user.dart';
 import 'package:donationsystem/models/user/user.dart';
+import 'package:donationsystem/repository/user_repository.dart';
 import 'package:donationsystem/services/Auth.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final User currentUser;
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 
-  ProfileScreen({this.currentUser});
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
+  User user;
+  UserCustom userProfile;
+  List<Campaign> renderCampaign = new List();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Auth auth = new Auth();
-    auth.getCurrentUser();
+    this.getCurrentUser();
+    this.getUserCampaign();
+    this._getCampaign();
   }
+
+  Future<User> getCurrentUser() async {
+    
+    Auth auth = new Auth();
+    UserRepository userRepository = new UserRepository();
+    String email;
+    await auth.getCurrentUser().then((value) => email = value.email);
+    await userRepository.fetchUserByEmail(email).then((value) => user = value);
+  }
+
+  getUserCampaign() async {
+    Auth auth = new Auth();
+    UserRepository userRepository = new UserRepository();
+    String email;
+    await auth.getCurrentUser().then((value) => email = value.email);
+    await userRepository.fetchUserProfile(email).then((value) => userProfile=value).whenComplete(() => setState(() {
+      
+    }));
+    return userProfile;
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    if(user==null && userProfile==null){
+      return Text("");
+    }
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(color: Colors.white),
@@ -37,8 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: 80,
                           height: 80,
                           child: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                "https://firebasestorage.googleapis.com/v0/b/prm391-study.appspot.com/o/avatars%2Fdefault.png?alt=media&token=eb223c2f-d198-4583-af3a-d5007f74e763"),
+                            backgroundImage: NetworkImage(user.image),
                           ),
                         ),
 
@@ -48,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Container(
                             margin: EdgeInsets.only(top: 15),
                             child: Text(
-                              "Nguyen Huynh Phu",
+                              user.firstName + " " + user.lastName,
                               style: TextStyle(
                                   fontSize: 20,
                                   fontFamily: "Roboto",
@@ -69,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                             children: [
                               Text(
-                                "15",
+                                userProfile.totalCampaign.toString(),
                                 style: TextStyle(
                                     fontSize: 22,
                                     fontFamily: "Roboto",
@@ -92,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                             children: [
                               Text(
-                                "\$150000",
+                                userProfile.balance.toString(),
                                 style: TextStyle(
                                     fontSize: 22,
                                     fontFamily: "Roboto",
@@ -115,14 +146,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                             children: [
                               Text(
-                                "\$15",
+                                userProfile.like.toString(),
                                 style: TextStyle(
                                     fontSize: 22,
                                     fontFamily: "Roboto",
                                     fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                "Spent",
+                                "Like",
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontFamily: "Roboto",
@@ -269,59 +300,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ));
   }
 
-  renderListCampagin() {
-    List<Campaign> tmp = new List();
-    tmp.add(new Campaign(
-        campaignId: 1,
-        campaignName: "asasd",
-        careless: 155,
-        description: 'asdaasdasd',
-        endDate: 'asdasdasd',
-        firstName: 'asdasdsd',
-        lastName: "asdasd",
-        startDate: 'asdasdad'));
-    tmp.add(new Campaign(
-        campaignId: 1,
-        campaignName: "asasd",
-        careless: 155,
-        description: 'asdaasdasd',
-        endDate: 'asdasdasd',
-        firstName: 'asdasdsd',
-        lastName: "asdasd",
-        startDate: 'asdasdad'));
 
-    tmp.add(new Campaign(
-        campaignId: 1,
-        campaignName: "asasd",
-        careless: 155,
-        description: 'asdaasdasd',
-        endDate: 'asdasdasd',
-        firstName: 'asdasdsd',
-        lastName: "asdasd",
-        startDate: 'asdasdad'));
-
-    tmp.add(new Campaign(
-        campaignId: 1,
-        campaignName: "asasd",
-        careless: 155,
-        description: 'asdaasdasd',
-        endDate: 'asdasdasd',
-        firstName: 'asdasdsd',
-        lastName: "asdasd",
-        startDate: 'asdasdad'));
-
-    tmp.add(new Campaign(
-        campaignId: 1,
-        campaignName: "asasd",
-        careless: 155,
-        description: 'asdaasdasd',
-        endDate: 'asdasdasd',
-        firstName: 'asdasdsd',
-        lastName: "asdasd",
-        startDate: 'asdasdad'));
-    List<Container> tmp2 = new List();
-    tmp.forEach((element) {
-      tmp2.add(Container(
+  
+   _getCampaign() async {
+    String email = user.email;
+    var empData = await http.get("https://swdapi.azurewebsites.net/api/campaign/CampaignOfUser/$email"); 
+    var jsonData = json.decode(empData.body);
+    for (var cam in jsonData) {
+      Campaign campaign = Campaign.fromJson(cam);
+      renderCampaign.add(campaign);
+    }
+    print(renderCampaign.toString() + " asdas");
+  }
+  renderListCampagin() async{ 
+  print(renderCampaign.toString() + " tmp  test");
+  List<Container> render = new List();
+  renderCampaign.forEach((element) {
+      render.add(Container(
         padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
         child: Row(
           children: [
@@ -359,6 +354,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ));
     });
-    return tmp2;
+    return render;
   }
 }
