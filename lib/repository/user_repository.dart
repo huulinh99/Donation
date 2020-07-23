@@ -46,7 +46,6 @@ class UserRepository implements BaseCategoryRepository {
   }
 
   @override
-<<<<<<< HEAD
   Future<String> insertUser(User user) async {
     String url = 'https://swdapi.azurewebsites.net/api/user';
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -55,7 +54,8 @@ class UserRepository implements BaseCategoryRepository {
     int statusCode = response.statusCode;
     String body = response.body;
     return body;
-=======
+  }
+  
    Future<User> fetchUserByEmail(String email) async {    
       User user; 
       print(email);
@@ -66,7 +66,6 @@ class UserRepository implements BaseCategoryRepository {
         user = User.fromJson(data[0]);
       }
       return user;  
->>>>>>> Linh commit
   }
 
   // Future<String> _addActor(AccountDTO dto) async {
