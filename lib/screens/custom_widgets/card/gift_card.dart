@@ -30,7 +30,7 @@ class _GiftCardState extends State<GiftCard> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child: Image.asset('assets/images/banner1.jpg', fit: BoxFit.fill,),
+              child: Image.network(widget.gift.image, fit: BoxFit.fill,),
             )
           ),
           Expanded(

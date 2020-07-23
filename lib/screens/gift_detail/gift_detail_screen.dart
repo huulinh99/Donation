@@ -1,5 +1,8 @@
 import 'package:donationsystem/models/gift/Gift.dart';
+import 'package:donationsystem/models/user/user.dart';
 import 'package:donationsystem/repository/gift_repository.dart';
+import 'package:donationsystem/repository/user_repository.dart';
+import 'package:donationsystem/services/Auth.dart';
 import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +18,24 @@ class GiftDetailScreen extends StatefulWidget{
 
 class GiftDetailScreenState extends State<GiftDetailScreen>{
   GiftRepository giftRepository;
+  User user;
   bool isDonated;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     giftRepository = new GiftRepository();
+    getCurrentUser();
     isDonated = false;
+  }
+
+  getCurrentUser() async {
+    Auth auth = new Auth();
+    UserRepository userRepository = new UserRepository();
+    String email;
+    await auth.getCurrentUser().then((value) => email = value.email);
+    await userRepository.fetchUserByEmail(email).then((value) => user=value);
+    return user;
   }
 
   @override
@@ -36,7 +50,7 @@ class GiftDetailScreenState extends State<GiftDetailScreen>{
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 300,
-                child: Image.asset("assets/images/banner1.jpg", fit: BoxFit.cover,),
+                child: Image.network("${widget.gift.image}", fit: BoxFit.cover,),
               ),
               Container(
                 padding: EdgeInsets.only(left: 15, top: 15, bottom: 5),
@@ -104,10 +118,13 @@ class GiftDetailScreenState extends State<GiftDetailScreen>{
                           setState(() {
                             isDonated = false;
                           });
-                        }).whenComplete(() {
+                        }).whenComplete(() async{
                           String campaignId = "";
-                          giftRepository.getCampaign(widget.gift.id).then((value) => campaignId=value);
-                          //giftRepository.donate(int.parse(campaignId, money, userDonate);
+                          await giftRepository.getCampaign(widget.gift.id).then((value) => campaignId=value.campaignId.toString());
+                          print(campaignId);
+                          print(widget.gift.amount);
+                          print(user.toString());
+                          giftRepository.donate(int.parse(campaignId), widget.gift.amount, user);
                           Navigator.pop(context);
                           widget.donateGift(widget.gift.id);
                         });

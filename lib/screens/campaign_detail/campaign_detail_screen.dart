@@ -45,7 +45,7 @@ class CampaignDetailScreenState extends State<CampaignDetailScreen> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 300,
-                  child: Image.asset("assets/images/banner1.jpg", fit: BoxFit.cover,),
+                  child: Image.network(widget.currentCampaign.image, fit: BoxFit.cover,),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,

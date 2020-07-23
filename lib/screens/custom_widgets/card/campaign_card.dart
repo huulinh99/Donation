@@ -1,26 +1,52 @@
 
+import 'package:donationsystem/models/campaign/campaign.dart';
+import 'package:donationsystem/repository/campaign_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CampaignCard extends StatefulWidget {
   final String title;
   final String ownerId;
   final String description;
   final int careless;
-  CampaignCard(this.title, this.ownerId, this.description, this.careless);
+  final String image;
+  CampaignCard(this.title, this.ownerId, this.description, this.careless, this.image);
 
   @override
   _CampaignCardState createState() => _CampaignCardState();
 
 }
 
-class _CampaignCardState extends State<CampaignCard> {
 
+
+class _CampaignCardState extends State<CampaignCard> {
+  CampaignRepository campaignRepository = new CampaignRepository();
   bool isFavourite = false;
   Color _iconColor = Color.fromRGBO(0, 0, 0, .4);
+  
+  
   @override
-  Widget build(BuildContext context) {
-    List <String> listImage = new List();
-    listImage.add('assets/images/banner1.jpg');
+   Future<Campaign> fetchNewestCampaign() async {    
+     Campaign campaign; 
+      final response = await http.get(
+          'https://swdapi.azurewebsites.net/api/campaign/CampaignsNewest/1');
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        campaign = Campaign.fromJson(data[0]);
+      }
+      return campaign;
+      
+  }
+  Campaign campaignNew;
+  void initState() {
+    // TODO: implement initState
+    fetchNewestCampaign().then((value) => campaignNew = value);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) { 
     return Container(
         margin: EdgeInsets.fromLTRB(5, 0, 5, 15),
         decoration: BoxDecoration(color: Colors.white, boxShadow: [
@@ -36,7 +62,7 @@ class _CampaignCardState extends State<CampaignCard> {
               height: 250,
               width: MediaQuery.of(context).size.width,
               child: Image.network(
-                "https://firebasestorage.googleapis.com/v0/b/donation-system-22f8e.appspot.com/o/banner.jpg?alt=media&token=84a654c3-3554-4940-b0e9-3532db2c1754",
+                '${widget.image}',
                 fit: BoxFit.fill,
               ),
             ),

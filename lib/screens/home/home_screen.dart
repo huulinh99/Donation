@@ -218,7 +218,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     " " +
                     element.lastName.toString(),
                 element.description,
-                element.careless))
+                element.careless,
+                element.image))
           );
     });
     return tmp;

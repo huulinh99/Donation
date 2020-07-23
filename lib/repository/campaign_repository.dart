@@ -34,6 +34,23 @@ class CampaignRepository  implements BaseCampaignRepository{
       return tmpList;
     }
   }
+  Campaign campaign;
+  @override
+   Future<Campaign> fetchNewestCampaign() async {     
+    try{
+      final response = await http.get(
+          'https://swdapi.azurewebsites.net/api/campaign/CampaignsNewest/1');
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        campaign = Campaign.fromJson(data[0]);
+        return campaign;
+      }
+    }catch(e){
+      print(e);
+    }finally{
+      return campaign;
+    }
+  }
 
    Future<List<Campaign>> fetchCampaignByFilter(String filterStatus) async {
     String url = "";

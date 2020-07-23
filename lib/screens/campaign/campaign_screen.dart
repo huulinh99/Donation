@@ -108,7 +108,8 @@ class CampaignScreenState extends State<CampaignScreen> {
                   " " +
                   item.lastName.toString(),
               item.description,
-              item.careless
+              item.careless,
+              item.image
           )
         )
       );

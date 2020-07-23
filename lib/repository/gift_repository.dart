@@ -8,7 +8,7 @@ import 'dart:convert';
 
 abstract class BaseGiftRepository{
   Future<List<Gift>> fetchGift(int campaignID);
-  Future<String> getCampaign(int giftId);
+  Future<Campaign> getCampaign(int giftId);
   Future<String> donate(int campaignId, double money, User userDonate);
   //List<Gift> fetchFakeGift(int campaignID);
 }
@@ -37,11 +37,14 @@ class GiftRepository  implements BaseGiftRepository{
 
   String campaignId = "";
 
-  Future<String> getCampaign(int giftId) async {
-    var empData = await http.get("https://swdapi.azurewebsites.net/api/CampaignByGiftId/$giftId");
-    var jsonData = json.decode(empData.body);
-    campaignId = jsonData;
-    return "Sucess";
+  Future<Campaign> getCampaign(int giftId) async {
+    Campaign campaign;
+    var response = await http.get("https://swdapi.azurewebsites.net/api/GiftDetail/CampaignByGiftId/$giftId");
+    if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        campaign = Campaign.fromJson(data[0]);
+      }
+      return campaign;
   }
 
   Future<String> donate(int campaignId, double money, User userDonate) async {

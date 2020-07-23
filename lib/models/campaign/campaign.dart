@@ -7,6 +7,7 @@ class Campaign {
   final String startDate;
   final String endDate;
   final String description;
+  final String image;
 
   Campaign(
       {
@@ -17,7 +18,8 @@ class Campaign {
         this.endDate,
         this.firstName,
         this.lastName,
-        this.startDate
+        this.startDate,
+        this.image
       }
     );
 
@@ -31,6 +33,7 @@ class Campaign {
       lastName: json['lastName'],
       startDate: json['startDate'],
       endDate: json['endDate'],
+      image: json['image'],
     );
   }
 

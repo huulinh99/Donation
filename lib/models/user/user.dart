@@ -25,4 +25,13 @@ class User {
         count: json['count']
     );
   }
+
+  Map toJson() => {
+     'id': id,
+     'email': email,
+     'firstName': firstName,
+     'lastName': lastName,
+     'roleId': roleId,
+     'count': count
+   };
 }

@@ -2,6 +2,7 @@
 import 'package:donationsystem/models/user/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:donationsystem/repository/user_repository.dart';
 
 abstract class BaseAuth{
 
@@ -26,6 +27,7 @@ class Auth implements BaseAuth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  UserRepository userRepository = new UserRepository();
 
   @override
   Stream<String> get onAuthStateChanged{
@@ -50,12 +52,13 @@ class Auth implements BaseAuth {
     FirebaseUser user = await _firebaseAuth.currentUser();
     user.sendEmailVerification();
   }
-
+  User currentUser;
   @override
   Future<String> signIn(String email, String password) async {
     try{
         AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
             email: email.toString().trim(), password: password).then((value) {print("RESULT $value");});
+        userRepository.fetchUserByEmail(email.toString().trim()).then((value) => currentUser=value);     
     }catch(e){
         return e.toString();
     }
