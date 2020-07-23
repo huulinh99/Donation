@@ -1,5 +1,6 @@
 import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:donationsystem/models/user/user.dart';
+import 'package:donationsystem/screens/new_campaign/new_campaign_screen.dart';
 import 'package:donationsystem/services/Auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -170,7 +171,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         RaisedButton(
                           color: Colors.black,
-                          onPressed: () => print("object"),
+                          onPressed: () => {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NewCampaignScreen()),
+                            )
+                          },
                           child: Text(
                             "Create new Campaign",
                             style: TextStyle(color: Colors.white),
@@ -196,43 +203,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
     showDialog(
         context: context,
         child: new AlertDialog(
-          title: new Text("Request Money"),
+          title: new Text(
+            "Request Money",
+            textAlign: TextAlign.left,
+            style: TextStyle(fontSize: 18, fontFamily: "ROBOTO"),
+          ),
           content: Container(
-            height: 300,
+            height: 220,
+            width: 500,
             child: Column(
               children: [
                 Container(
                     child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(bottom: 5, top: 8),
                       child: Text("Money",
                           textAlign: TextAlign.left,
                           style: TextStyle(fontSize: 16, color: Colors.black)),
                     ),
-                    Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                          color: Colors.black12,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: TextFormField(
-                        textAlignVertical: TextAlignVertical.center,
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(12),
-                          focusedBorder: InputBorder.none,
+                    TextFormField(
+                      textAlignVertical: TextAlignVertical.center,
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        focusedBorder: InputBorder.none,
 
-                          //prefixIcon: Icon(Icons.account_box, color: Colors.black)
-                        ),
+                        //prefixIcon: Icon(Icons.account_box, color: Colors.black)
                       ),
-                    )
+                    ),
                   ],
                 )),
                 Container(
                     alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.only(bottom: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -244,25 +248,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               style:
                                   TextStyle(fontSize: 16, color: Colors.black)),
                         ),
-                        Container(
-                          height: 35,
-                          decoration: BoxDecoration(
-                              color: Colors.black12,
-                              borderRadius: BorderRadius.circular(5)),
-                          child: TextFormField(
-                            textAlignVertical: TextAlignVertical.center,
-                            style: TextStyle(color: Colors.black, fontSize: 16),
-                            maxLines: 3,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(12),
-                              focusedBorder: InputBorder.none,
+                        TextFormField(
+                          textAlignVertical: TextAlignVertical.center,
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                          maxLines: 2,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(12),
+                            focusedBorder: InputBorder.none,
 
-                              //prefixIcon: Icon(Icons.account_box, color: Colors.black)
-                            ),
+                            //prefixIcon: Icon(Icons.account_box, color: Colors.black)
                           ),
-                        )
+                        ),
                       ],
                     )),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    RaisedButton(
+                      onPressed: () => {},
+                      child: Text(
+                        'Send Request',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
