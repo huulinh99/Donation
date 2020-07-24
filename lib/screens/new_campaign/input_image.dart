@@ -56,14 +56,15 @@ class InputImageState extends State<InputImage> {
                           color: Colors.black54,
                         ),
                       ],
-                      fontSize: 26,
+                      fontSize: 30,
                       fontFamily: "roboto",
                       fontWeight: FontWeight.w400,
                       decoration: TextDecoration.none))),
           Container(
               child: RaisedButton(
+            color: Colors.white,
             onPressed: () => getImage(),
-            child: Text("Picked"),
+            child: Text("Pick"),
           ))
         ],
       ),

@@ -8,6 +8,7 @@ import 'package:donationsystem/models/user/user.dart';
 import 'package:donationsystem/repository/request_money_repository.dart';
 import 'package:donationsystem/screens/new_campaign/new_campaign_screen.dart';
 import 'package:donationsystem/repository/user_repository.dart';
+import 'package:donationsystem/screens/owner_campaign/owner_campaign_screen.dart';
 import 'package:donationsystem/services/Auth.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:http/http.dart' as http;
@@ -202,19 +203,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontWeight: FontWeight.w600),
                     ),
                   ),
-                  Container(
-                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 15),
-                      decoration:
-                          BoxDecoration(color: Colors.white, boxShadow: [
-                        BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 1,
-                            spreadRadius: 2,
-                            offset: Offset(1, 1))
-                      ]),
-                      child: Column(
-                        children: renderListCampagin(),
-                      )),
+                  GestureDetector(
+                    onTap: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                OwnerCampaignScreen(renderCampaign)),
+                      )
+                    },
+                    child: Container(
+                        margin:
+                            EdgeInsets.only(left: 10, right: 10, bottom: 15),
+                        decoration:
+                            BoxDecoration(color: Colors.white, boxShadow: [
+                          BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 1,
+                              spreadRadius: 2,
+                              offset: Offset(1, 1))
+                        ]),
+                        child: Column(
+                          children: renderListCampagin(),
+                        )),
+                  ),
                   Container(
                       margin: EdgeInsets.only(left: 10, right: 10, bottom: 15),
                       decoration: BoxDecoration(

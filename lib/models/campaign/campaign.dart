@@ -1,16 +1,17 @@
 class Campaign {
-  final int campaignId;
-  final String campaignName;
-  final String firstName;
-  final String lastName;
-  final int careless;
-  final String startDate;
-  final String endDate;
-  final String description;
-  final String image;
-  final double amount;
-  final double currentlyMoney;
-  final int categoryId;
+  int campaignId;
+  String campaignName;
+  String firstName;
+  String lastName;
+  int careless;
+  String startDate;
+  String endDate;
+  String description;
+  String image;
+  double amount;
+  double currentlyMoney;
+  int categoryId;
+  int userId;
   Campaign(
       {this.campaignId,
       this.campaignName,
@@ -23,6 +24,7 @@ class Campaign {
       this.amount,
       this.currentlyMoney,
       this.categoryId,
+      this.userId,
       this.image});
 
   factory Campaign.fromJson(Map<String, dynamic> json) {
@@ -40,4 +42,20 @@ class Campaign {
       image: json['image'],
     );
   }
+
+  Map toJson() => {
+        'campaignId': campaignId,
+        'campaignName': campaignName,
+        'description': description,
+        'careless': careless,
+        'firstName': firstName,
+        'lastName': lastName,
+        'startDate': startDate,
+        'endDate': endDate,
+        'amount': amount,
+        'currentlyMoney': currentlyMoney,
+        'image': image,
+        'userId': userId,
+        'categoryId': categoryId
+      };
 }
