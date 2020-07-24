@@ -8,10 +8,9 @@ import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart
 import 'package:donationsystem/screens/profile/profile_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:donationsystem/screens/home/home_screen.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'NavDrawer.dart';
 import 'main_screen_view_model.dart';
 
@@ -36,6 +35,7 @@ class _MainScreenState extends State<MainScreen> {
   String filterStatus = "Newest";
 
   TextEditingController searchValue = new TextEditingController();
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
@@ -50,6 +50,23 @@ class _MainScreenState extends State<MainScreen> {
     searchValue.addListener(() {
       mainScreenViewModel.searchValueSink.add(searchValue.text);
     });
+
+    _firebaseMessaging.autoInitEnabled().then((bool enabled) => print(enabled));
+    _firebaseMessaging.setAutoInitEnabled(true).then((_) => _firebaseMessaging.autoInitEnabled().then((bool enabled) => print(enabled)));
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+    _firebaseMessaging.onTokenRefresh.listen((data) {
+      print('Refresh Token: $data');
+    }, onDone: () => print('Refresh Token Done'));
   }
 
   @override

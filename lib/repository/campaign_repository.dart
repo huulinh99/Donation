@@ -7,6 +7,7 @@ import 'package:http/http.dart';
 abstract class BaseCampaignRepository {
   Future<List<Campaign>> fetchCampaign();
   Future<List<Campaign>> fetchCampaignByFilter(String filterStatus);
+  Future<List<Campaign>> fetchCampaignByCategory(String category);
   //List<Campaign> fetchFakeCampaign();
 
 }
@@ -18,6 +19,27 @@ class CampaignRepository implements BaseCampaignRepository {
     try {
       final response = await http.get(
           'https://swdapi.azurewebsites.net/api/campaign/CampaignsNewest/4');
+      if (response.statusCode == 200) {
+        List<dynamic> data = json.decode(response.body);
+        tmpList = new List();
+        data.forEach((element) {
+          tmpList.add(Campaign.fromJson(element));
+        });
+        return tmpList;
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      return tmpList;
+    }
+  }
+
+  @override
+  Future<List<Campaign>> fetchCampaignByCategory(String category) async {
+    List<Campaign> tmpList = null;
+    try {
+      final response = await http.get(
+          'https://swdapi.azurewebsites.net/api/campaign/CampaignByCategory/$category');
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         tmpList = new List();
