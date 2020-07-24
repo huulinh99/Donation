@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:donationsystem/models/gift/Gift.dart';
 import 'package:donationsystem/models/user/user.dart';
 import 'package:donationsystem/repository/gift_repository.dart';
@@ -5,6 +8,8 @@ import 'package:donationsystem/repository/user_repository.dart';
 import 'package:donationsystem/services/Auth.dart';
 import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class GiftDetailScreen extends StatefulWidget{
@@ -36,6 +41,14 @@ class GiftDetailScreenState extends State<GiftDetailScreen>{
     await auth.getCurrentUser().then((value) => email = value.email);
     await userRepository.fetchUserByEmail(email).then((value) => user=value);
     return user;
+  }
+
+  Future<String> getToken(String userId) async {
+    print(userId + " co user");
+    var empData = await http.get("https://prm391-project.herokuapp.com/api/accounts/gettoken/$userId");
+    var token = json.decode(empData.body);
+    print(token);
+    return token["deviceToken"];
   }
 
   @override
@@ -121,9 +134,6 @@ class GiftDetailScreenState extends State<GiftDetailScreen>{
                         }).whenComplete(() async{
                           String campaignId = "";
                           await giftRepository.getCampaign(widget.gift.id).then((value) => campaignId=value.campaignId.toString());
-                          print(campaignId);
-                          print(widget.gift.amount);
-                          print(user.toString() + " user api");
                           giftRepository.donate(int.parse(campaignId), widget.gift.amount, user);
                           Navigator.pop(context);
                           widget.donateGift(widget.gift.id);

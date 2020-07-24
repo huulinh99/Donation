@@ -1,16 +1,16 @@
-class Category {
+class CategoryModel {
   final int id;
   final String name;
 
-  Category(
+  CategoryModel(
       {
         this.id,
         this.name,
       }
     );
 
-  factory Category.fromJson(Map<String, dynamic> json) {
-    return Category(
+  factory CategoryModel.fromJson(Map<String, dynamic> json) {
+    return CategoryModel(
       id: json['id'],
       name: json['name'],
     );
