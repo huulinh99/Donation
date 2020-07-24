@@ -85,7 +85,7 @@ class SideMenuState extends State<SideMenu> {
                     child: SizedBox(
                       width: 180.0,
                       height: 180.0,
-                        child: user==null
+                        child: user == null
                         ? Text('')
                         :Image.network(user.image,
                                 fit: BoxFit.fill),
@@ -95,7 +95,7 @@ class SideMenuState extends State<SideMenu> {
           ),
            Align(
             alignment:Alignment.centerRight,
-              child: user==null
+              child: user == null
                     ? Text('')
                     :Text(
                 'Welcome, ${user.lastName}',
@@ -159,7 +159,9 @@ class SideMenuState extends State<SideMenu> {
                   Border(bottom: BorderSide(color: Colors.black, width: 0.4))),
           child: 
           GestureDetector(
-            onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => CampaignByCategoryScreen(item)),)},
+            onTap: () {this.widget.handelFragmentOption(item);
+              Navigator.of(context).pop();
+              },
             child:  ListTile(
             title: Text(item),
           ),),

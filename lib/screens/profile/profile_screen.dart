@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:donationsystem/models/custom_user/custom_user.dart';
+import 'package:intl/intl.dart';
+import 'package:donationsystem/models/request_money/request_money.dart';
 import 'package:donationsystem/models/user/user.dart';
+import 'package:donationsystem/repository/request_money_repository.dart';
 import 'package:donationsystem/screens/new_campaign/new_campaign_screen.dart';
 import 'package:donationsystem/repository/user_repository.dart';
 import 'package:donationsystem/screens/owner_campaign/owner_campaign_screen.dart';
@@ -21,6 +24,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   User user;
   UserCustom userProfile;
   List<Campaign> renderCampaign;
+  TextEditingController txtMoney = new TextEditingController();
+  TextEditingController txtDescription = new TextEditingController();
+  RequestMoneyRepository requestMoneyRepository = new RequestMoneyRepository();
 
   @override
   Future<void> initState() {
@@ -286,6 +292,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: TextStyle(fontSize: 16, color: Colors.black)),
                     ),
                     TextFormField(
+                      controller: txtMoney,
                       textAlignVertical: TextAlignVertical.center,
                       style: TextStyle(color: Colors.black, fontSize: 16),
                       keyboardType: TextInputType.number,
@@ -312,6 +319,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   TextStyle(fontSize: 16, color: Colors.black)),
                         ),
                         TextFormField(
+                          controller: txtDescription,
                           textAlignVertical: TextAlignVertical.center,
                           style: TextStyle(color: Colors.black, fontSize: 16),
                           maxLines: 2,
@@ -328,7 +336,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     RaisedButton(
-                      onPressed: () => {},
+                      onPressed: ()  {
+                          DateTime now = DateTime.now();
+                          final DateFormat formatter = DateFormat('yyyy-MM-dd');
+                          RequestMoney requestMoney = new RequestMoney.id(description: txtDescription.text, 
+                          money: int.parse(txtMoney.text),date: formatter.format(now), userId: user.id);
+                          print(requestMoney.toString().toString() + " asdasd");
+                          requestMoneyRepository.requestMoney(requestMoney);
+                      },
                       child: Text(
                         'Send Request',
                         style: TextStyle(color: Colors.white),
