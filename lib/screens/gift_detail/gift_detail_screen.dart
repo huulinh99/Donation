@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:donationsystem/models/donate_detail/donate_detail.dart';
 import 'package:donationsystem/models/gift/Gift.dart';
 import 'package:donationsystem/models/user/user.dart';
+import 'package:donationsystem/repository/donate_detail_repository.dart';
 import 'package:donationsystem/repository/gift_repository.dart';
 import 'package:donationsystem/repository/user_repository.dart';
 import 'package:donationsystem/services/Auth.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class GiftDetailScreen extends StatefulWidget{
   final Gift gift;
@@ -23,6 +26,7 @@ class GiftDetailScreen extends StatefulWidget{
 
 class GiftDetailScreenState extends State<GiftDetailScreen>{
   GiftRepository giftRepository;
+  DonateDetailRepository donateDetailRepository;
   User user;
   bool isDonated;
   @override
@@ -30,6 +34,7 @@ class GiftDetailScreenState extends State<GiftDetailScreen>{
     // TODO: implement initState
     super.initState();
     giftRepository = new GiftRepository();
+    donateDetailRepository = new DonateDetailRepository();
     getCurrentUser();
     isDonated = false;
   }
@@ -137,6 +142,12 @@ class GiftDetailScreenState extends State<GiftDetailScreen>{
                           giftRepository.donate(int.parse(campaignId), widget.gift.amount, user);
                           Navigator.pop(context);
                           widget.donateGift(widget.gift.id);
+                          DateTime now = DateTime.now();
+                          final DateFormat formatter = DateFormat('yyyy-MM-dd');
+                          DonateDetail donateDetail = new DonateDetail.id(campaignId: int.parse(campaignId), userId: user.id,
+                          amount: widget.gift.amount.toInt(), date: formatter.format(now),giftId: widget.gift.id);
+                          print(donateDetail.toString().toString() + " asdasd");
+                          donateDetailRepository.donateDetail(donateDetail);
                         });
                       },
                       color: Colors.black,

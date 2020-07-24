@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:donationsystem/models/user/User.dart';
 import 'package:donationsystem/screens/campaign/campaign_screen.dart';
+import 'package:donationsystem/screens/campaign/campaign_screen_by_category.dart';
 import 'package:donationsystem/screens/campaign_detail/campaign_detail_screen.dart';
 import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart';
 import 'package:donationsystem/screens/profile/profile_screen.dart';
@@ -190,6 +191,8 @@ class _MainScreenState extends State<MainScreen> {
             return new CampaignScreen(filterStatus);
           } else if (snapshot.data == "profile") {
             return new ProfileScreen();
+          }else{
+            return new CampaignByCategoryScreen(snapshot.data);
           }
         } else {
           return new Container(

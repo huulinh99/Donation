@@ -101,7 +101,6 @@ Future<Map<String, dynamic>> sendMessage(String userId, String body, String titl
   return completer.future;
 }
   User user;
-
   Future<User> getUserByCampaignId(int campaignId) async {
     var response = await http.get("https://swdapi.azurewebsites.net/api/user/UserByCampaign/$campaignId");
     if (response.statusCode == 200) {
@@ -117,10 +116,10 @@ Future<Map<String, dynamic>> sendMessage(String userId, String body, String titl
     String json = jsonEncode(userDonate);
     Response response = await put(url, headers: headers, body: json);
     int statusCode = response.statusCode;
-    await getUserByCampaignId(campaignId);
-    if(statusCode == 200){
-      sendMessage(user.id.toString(), "You have a new donation !!!", '${userDonate.firstName}' + ' ' +'${userDonate.lastName}' + ' ' + "donated for you + ' ' + '${money.toString()}'+' ' + dollar");
-    }
+    // await getUserByCampaignId(campaignId);
+    // if(statusCode == 200){
+    //   sendMessage(user.id.toString(), "You have a new donation !!!", '${userDonate.firstName}' + ' ' +'${userDonate.lastName}' + ' ' + "donated for you + ' ' + '${money.toString()}'+' ' + dollar");
+    // }
     String body = response.body;
     return "OK";
   }

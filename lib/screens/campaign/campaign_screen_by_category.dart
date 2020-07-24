@@ -24,7 +24,6 @@ class CampaignByCategoryScreenState extends State<CampaignByCategoryScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     campaignRepository = new CampaignRepository();
     super.initState();
   }
@@ -32,10 +31,9 @@ class CampaignByCategoryScreenState extends State<CampaignByCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     campaignScreenViewModel.listCampaignSink.add(null);
-    print(widget.category);
     campaignRepository.fetchCampaignByCategory(widget.category).then((value) => campaignScreenViewModel.listCampaignSink.add(value));
     return Container(
-      padding: EdgeInsets.only(top: 4, bottom: 55),
+      padding: EdgeInsets.only(top: 4),
       child:
         Stack(
           children: <Widget>[
@@ -52,13 +50,13 @@ class CampaignByCategoryScreenState extends State<CampaignByCategoryScreen> {
     return StreamBuilder(
       stream: campaignScreenViewModel.listCampaignStream,
       builder: (context, snapshot){
-        print(snapshot.data.toString() + " render list campaign");
+        print(snapshot.data.toString() + " render campaig");
         if(snapshot.hasData){
           return Column(
             children: renderListCard(snapshot.data)
           );
         }else{
-          return Container(
+          return Container(         
             height: MediaQuery.of(context).size.height - 150,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +72,6 @@ class CampaignByCategoryScreenState extends State<CampaignByCategoryScreen> {
   }
 
   renderListCard(List<Campaign> list){  
-    print(list.toString() + " render list card");
     final List<GestureDetector> tmp = new List();
     list.forEach((item) {
       tmp.add(
