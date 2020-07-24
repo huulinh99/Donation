@@ -1,10 +1,14 @@
 import 'dart:io';
 
+import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class InputImage extends StatefulWidget {
+  final Function(File) setFile;
+  InputImage(this.setFile);
+
   @override
   InputImageState createState() => InputImageState();
 }
@@ -19,20 +23,47 @@ class InputImageState extends State<InputImage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white),
+      padding: EdgeInsets.only(right: 20, bottom: 60),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        image: DecorationImage(
+            image: AssetImage(
+              "assets/images/choicePicture.jpg",
+            ),
+            fit: BoxFit.cover),
+      ),
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Container(
-            child: Text("Choice your picture"),
-          ),
+              margin: EdgeInsets.only(bottom: 5),
+              child: Text("Let's have a picture",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      color: Colors.white,
+                      shadows: <Shadow>[
+                        Shadow(
+                          offset: Offset(1.0, 1.0),
+                          blurRadius: 3.0,
+                          color: Colors.black54,
+                        ),
+                        Shadow(
+                          offset: Offset(1.0, 1.0),
+                          blurRadius: 8.0,
+                          color: Colors.black54,
+                        ),
+                      ],
+                      fontSize: 26,
+                      fontFamily: "roboto",
+                      fontWeight: FontWeight.w400,
+                      decoration: TextDecoration.none))),
           Container(
               child: RaisedButton(
             onPressed: () => getImage(),
-            child: Text("pick"),
+            child: Text("Picked"),
           ))
         ],
       ),
@@ -43,7 +74,7 @@ class InputImageState extends State<InputImage> {
     await picker
         .getImage(source: ImageSource.gallery)
         .then((value) => setState(() {
-              displayImageFile = File(value.path);
+              widget.setFile(File(value.path));
             }));
   }
 

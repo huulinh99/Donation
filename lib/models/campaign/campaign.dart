@@ -10,7 +10,7 @@ class Campaign {
   final String image;
   final double amount;
   final double currentlyMoney;
-
+  final int categoryId;
   Campaign(
       {this.campaignId,
       this.campaignName,
@@ -22,6 +22,7 @@ class Campaign {
       this.startDate,
       this.amount,
       this.currentlyMoney,
+      this.categoryId,
       this.image});
 
   factory Campaign.fromJson(Map<String, dynamic> json) {
