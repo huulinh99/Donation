@@ -1,14 +1,21 @@
+import 'dart:io';
+
 class Gift {
-  final int id;
-  final int campaignID;
-  final String giftName;
-  final double amount;
-  final String description;
-  final String image;
-  final int quantity;
-
-
-  Gift({this.id, this.campaignID, this.giftName, this.amount, this.description, this.image, this.quantity});
+  int id;
+  int campaignID;
+  String giftName;
+  double amount;
+  String description;
+  String image;
+  File uploadFile;
+  Gift(
+      {this.id,
+      this.campaignID,
+      this.giftName,
+      this.amount,
+      this.description,
+      this.uploadFile,
+      this.image});
 
   factory Gift.fromJson(Map<String, dynamic> json) {
     return Gift(
@@ -18,8 +25,15 @@ class Gift {
       amount: json['amount'],
       description: json['description'],
       image: json['image'],
-      quantity: json['quantity']
     );
   }
 
+  Map toJson() => {
+        'id': id,
+        'campaignID': campaignID,
+        'giftName': giftName,
+        'amount': amount,
+        'description': description,
+        'image': image,
+      };
 }

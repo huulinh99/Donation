@@ -97,11 +97,12 @@ class CampaignRepository implements BaseCampaignRepository {
     }
   }
 
-  Future<String> addCampaign(Campaign campaign) async {
+  Future<int> addCampaign(Campaign campaign) async {
     String url = 'https://swdapi.azurewebsites.net/api/campaign';
     Map<String, String> headers = {"Content-type": "application/json"};
-    String json = jsonEncode(campaign);
-    Response response = await post(url, headers: headers, body: json);
+    String passingJson = jsonEncode(campaign);
+    Response response = await post(url, headers: headers, body: passingJson);
+    return json.decode(response.body);
   }
 
   // @override
