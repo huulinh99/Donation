@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:donationsystem/models/donate_detail/donate_detail.dart';
+import 'package:donationsystem/models/donate_detail/donate_detail_custom.dart';
 import 'package:donationsystem/models/custom_user/custom_user.dart';
 import 'package:http/http.dart';
 import 'package:donationsystem/models/user/user.dart';
@@ -21,6 +22,28 @@ class DonateDetailRepository implements BaseCategoryRepository {
     int statusCode = response.statusCode;
     String body = response.body;
     return body;
+  }
+
+  Future<List<DonateDetailCustom>> getDonateDetail(String campaignId) async {
+    
+    List<DonateDetailCustom> donateHistory = new List();
+    String url =
+        "https://swdapi.azurewebsites.net/api/DonateDetail/${campaignId}";
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {       
+        List<dynamic> data = json.decode(response.body);
+        data.forEach((element) {
+          donateHistory.add(DonateDetailCustom.fromJson(element));
+        });      
+        print(donateHistory);
+        return donateHistory;
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      return donateHistory;
+    }
   }
 
   // Future<String> _addActor(AccountDTO dto) async {

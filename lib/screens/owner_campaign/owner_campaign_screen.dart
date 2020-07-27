@@ -5,6 +5,7 @@ import 'package:donationsystem/models/user/user.dart';
 import 'package:donationsystem/repository/campaign_repository.dart';
 import 'package:donationsystem/repository/user_repository.dart';
 import 'package:donationsystem/screens/edit_campaign/edit_campaign_screen.dart';
+import 'package:donationsystem/screens/donate_history/donate_history.dart';
 import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart';
 import 'package:donationsystem/services/Auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -79,7 +80,11 @@ class OwnerCampaignScreenState extends State<OwnerCampaignScreen> {
           ],
         ),
         margin: EdgeInsets.only(bottom: 15),
-        child: Column(
+        child:InkWell(
+          onTap: () => {
+              Navigator.push(context,MaterialPageRoute(builder: (context) => DonateHistoryScreen(element.campaignId.toString())),)
+            },
+            child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -186,6 +191,7 @@ class OwnerCampaignScreenState extends State<OwnerCampaignScreen> {
               ),
             )
           ],
+        ),
         ),
       ));
     });

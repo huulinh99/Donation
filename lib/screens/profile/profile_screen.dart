@@ -336,6 +336,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: <Widget>[
                     RaisedButton(
                       onPressed: () {
+                        print("SDF sdfsdfsdSDF");
                         DateTime now = DateTime.now();
                         final DateFormat formatter = DateFormat('yyyy-MM-dd');
                         RequestMoney requestMoney = new RequestMoney.id(
@@ -343,12 +344,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             money: int.parse(txtMoney.text),
                             date: formatter.format(now),
                             userId: user.id);
-
+                            print(requestMoney.toString());
                         requestMoneyRepository.requestMoney(requestMoney);
                       },
                       child: Text(
                         'Send Request',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.red),
                       ),
                     ),
                   ],
@@ -365,11 +366,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       renderCampaign.forEach((element) {
         render.add(
           Container(
-          padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-          child: InkWell(
-            onTap: () => {
-              Navigator.push(context,MaterialPageRoute(builder: (context) => DonateHistoryScreen(element.campaignId.toString())),)
-            },
+          padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),        
             child: Row(
             children: [
               Expanded(
@@ -403,7 +400,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Text(element.careless.toString()),
               )
             ],
-          ),
           ),
         ));
       });

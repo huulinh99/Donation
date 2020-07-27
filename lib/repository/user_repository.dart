@@ -17,7 +17,7 @@ class UserRepository implements BaseCategoryRepository {
     List<User> tmpList = null;
     try {
       final response =
-          await http.get('https://swdapi.azurewebsites.net/api/Category');
+          await http.get('https://swdapi.azurewebsites.net/api/User/UserMostFavourite');
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         tmpList = new List();
@@ -53,6 +53,7 @@ class UserRepository implements BaseCategoryRepository {
       return tmpList;
     }
   }
+  
 
   @override
   Future<User> fetchUserByEmail(String email) async {

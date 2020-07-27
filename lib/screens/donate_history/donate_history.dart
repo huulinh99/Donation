@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:donationsystem/models/custom_user/custom_user.dart';
-import 'package:donationsystem/models/donate_detail/donate_detail.dart';
+import 'package:donationsystem/models/donate_detail/donate_detail_custom.dart';
+import 'package:donationsystem/repository/donate_detail_repository.dart';
 import 'package:intl/intl.dart';
 import 'package:donationsystem/models/request_money/request_money.dart';
 import 'package:donationsystem/models/user/user.dart';
@@ -25,37 +26,21 @@ class DonateHistoryScreen extends StatefulWidget {
 class _DonateHistoryScreenState extends State<DonateHistoryScreen> {
   User user;
   UserCustom userProfile;
-  List<DonateDetail> donateHistory;
   RequestMoneyRepository requestMoneyRepository = new RequestMoneyRepository();
+  
+  List<DonateDetailCustom> listDonateDetail;
 
   @override
-  Future<void> initState() {
+  void initState() {
     // TODO: implement initState
     super.initState();
-    this.getDonateDetail(widget.campaignId);
+    print(widget.campaignId);
+    DonateDetailRepository donateDetailRepository = new DonateDetailRepository();
+    donateDetailRepository.getDonateDetail(widget.campaignId).then((value) => setState(() {
+      listDonateDetail = value;
+    }));
   }
 
-  Future<List<Campaign>> getDonateDetail(String campaignId) async {
-    List tmp = new List();
-    print(campaignId + " ad");
-    String url =
-        "https://swdapi.azurewebsites.net/api/DonateDetail/${campaignId}";
-    try {
-      final response = await http.get(url);
-      if (response.statusCode == 200) {
-        List<dynamic> data = json.decode(response.body);
-        data.forEach((element) {
-          tmp.add(DonateDetail.fromJson(element));
-        });
-      }
-      print(tmp);
-      setState(() {
-        donateHistory = new List<DonateDetail>.from(tmp);
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
 
   @override
   Future<User> fetchUser(String userId) async {
@@ -77,7 +62,6 @@ class _DonateHistoryScreenState extends State<DonateHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-            print("sdfsdf ");
       return Scaffold(
         body: Container(
             decoration: BoxDecoration(color: Colors.white),
@@ -106,11 +90,14 @@ class _DonateHistoryScreenState extends State<DonateHistoryScreen> {
 
   renderListCampagin() {
     List<Container> render = new List();
-    User user;
-    if (donateHistory != null) {     
-      donateHistory.forEach((element) async{       
-          await fetchUser(element.userId.toString()).then((value) => user = value);             
-          await render.add(Container(
+    if(listDonateDetail == null){
+  print(" nul vccc");      
+        return render;
+    }else{
+      print(" co chayyy vccc");
+      listDonateDetail.forEach((element) {             
+          render.add(
+          Container(
           padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
           child: Row(
             children: [
@@ -122,7 +109,7 @@ class _DonateHistoryScreenState extends State<DonateHistoryScreen> {
                     children: [
                       Container(
                         child:Text(
-                          user.firstName,
+                          element.firstName + " " + element.lastName,
                           style: TextStyle(
                               fontSize: 19,
                               fontFamily: "roboto",
@@ -146,10 +133,9 @@ class _DonateHistoryScreenState extends State<DonateHistoryScreen> {
               )
             ],
           ),
-        ));    
-        
+        ));           
       });
-      return render;
-    }
+    }       
+    return render;
   }
 }
