@@ -3,6 +3,7 @@ import 'package:donationsystem/repository/user_repository.dart';
 import 'package:donationsystem/models/category/category.dart';
 import 'package:donationsystem/models/custom_user/custom_user.dart';
 import 'package:donationsystem/screens/campaign/campaign_screen_by_category.dart';
+import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 import 'package:donationsystem/services/Auth.dart';
@@ -76,33 +77,47 @@ class SideMenuState extends State<SideMenu> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          Align(
-            alignment:Alignment.topLeft,
-              child: CircleAvatar(
-                radius: 70,
-                backgroundColor:Color(0xff476cfb),
-                  child: ClipOval(
-                    child: SizedBox(
-                      width: 180.0,
-                      height: 180.0,
-                        child: user == null 
-                        ? Text('')
-                        :Image.network(user.image,
-                                fit: BoxFit.fill),
+          Container(
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(color: Colors.black54, width: 1))),
+            padding: EdgeInsets.only(top: 35, left: 15, bottom: 25),
+            margin: EdgeInsets.only(bottom: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Color(0xFF000000),
+                    child: ClipOval(
+                      child: SizedBox(
+                        width: 60.0,
+                        height: 60.0,
+                        child: user == null
+                            ? LoadingCircle(15, Colors.white)
+                            : Image.network(user.image, fit: BoxFit.fill),
+                      ),
                     ),
                   ),
-              ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 15),
+                  child: Align(
+                      alignment: Alignment.centerRight,
+                      child: user == null
+                          ? Text('')
+                          : Text('${user.firstName} ${user.lastName}',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: "Roboto",
+                                  fontWeight: FontWeight.w400))),
+                )
+              ],
             ),
           ),
-          Align(
-              alignment: Alignment.centerRight,
-              child: user == null
-                  ? Text('')
-                  : Text('Welcome, ${user.lastName}',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: "Montserrat",
-                          fontWeight: FontWeight.w400))),
           ListTile(
             leading: Icon(Icons.home),
             title: Text('Home'),

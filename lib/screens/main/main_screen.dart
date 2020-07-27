@@ -36,7 +36,7 @@ class _MainScreenState extends State<MainScreen> {
   String filterStatus = "Newest";
 
   TextEditingController searchValue = new TextEditingController();
-    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
@@ -53,7 +53,9 @@ class _MainScreenState extends State<MainScreen> {
     });
 
     _firebaseMessaging.autoInitEnabled().then((bool enabled) => print(enabled));
-    _firebaseMessaging.setAutoInitEnabled(true).then((_) => _firebaseMessaging.autoInitEnabled().then((bool enabled) => print(enabled)));
+    _firebaseMessaging.setAutoInitEnabled(true).then((_) => _firebaseMessaging
+        .autoInitEnabled()
+        .then((bool enabled) => print(enabled)));
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
@@ -191,7 +193,7 @@ class _MainScreenState extends State<MainScreen> {
             return new CampaignScreen(filterStatus);
           } else if (snapshot.data == "profile") {
             return new ProfileScreen();
-          }else{
+          } else {
             return new CampaignByCategoryScreen(snapshot.data);
           }
         } else {
@@ -345,6 +347,7 @@ class _MainScreenState extends State<MainScreen> {
                         width: 2.0,
                       ))),
                   child: Container(
+                    padding: EdgeInsets.only(top: 10),
                     height: 150,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -398,7 +401,7 @@ class _MainScreenState extends State<MainScreen> {
     try {
       if (searchValue.text.trim().isNotEmpty) {
         final response = await http.get(
-            'https://donation-system-api.herokuapp.com/api/campaign/GetCampaign?FilterCampaignName=${searchValue.text}');
+            'https://swdapi.azurewebsites.net/api/campaign/${searchValue.text}');
         if (response.statusCode == 200) {
           List<dynamic> data = json.decode(response.body);
           List<Campaign> tmpList = new List();
@@ -467,19 +470,31 @@ class _MainScreenState extends State<MainScreen> {
                 )
               },
           child: new Container(
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.all(10),
-            margin: EdgeInsets.only(bottom: 10),
+            width: MediaQuery.of(context).size.width - 10,
+            padding: EdgeInsets.all(8),
+            margin: EdgeInsets.only(bottom: 10, left: 5, right: 5),
             decoration: BoxDecoration(color: Colors.white, boxShadow: [
-              BoxShadow(spreadRadius: 0.5, blurRadius: 1, color: Colors.black)
+              BoxShadow(
+                  spreadRadius: 1,
+                  blurRadius: 3,
+                  color: Colors.black38,
+                  offset: Offset(1, 2))
             ]),
             height: 100,
             child: Row(
               children: <Widget>[
                 Container(
-                  child: Image.asset("assets/images/banner1.jpg"),
+                  width: 80,
+                  height: 80,
+                  margin: EdgeInsets.only(right: 5),
+                  child: Image.network(
+                    element.image,
+                    fit: BoxFit.fill,
+                  ),
                 ),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
                       element.campaignName,
@@ -488,14 +503,30 @@ class _MainScreenState extends State<MainScreen> {
                           fontSize: 16,
                           decoration: TextDecoration.none),
                     ),
-                    Text(
-                      "${element.careless}",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none),
+                    Container(
+                      margin: EdgeInsets.only(top: 2, bottom: 2),
+                      child: Text(
+                        "${element.startDate.split("T")[0]} ~ ${element.endDate.split("T")[0]}",
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none),
+                      ),
                     ),
+                    Container(
+                      width: 250,
+                      child: Text(
+                        element.description,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none),
+                      ),
+                    )
                   ],
                 )
               ],

@@ -19,7 +19,7 @@ class CampaignCard extends StatefulWidget {
 
 class _CampaignCardState extends State<CampaignCard> {
   CampaignRepository campaignRepository = new CampaignRepository();
-  bool isFavourite = false;
+  bool isFavourite = true;
   Color _iconColor = Color.fromRGBO(0, 0, 0, .4);
 
   @override

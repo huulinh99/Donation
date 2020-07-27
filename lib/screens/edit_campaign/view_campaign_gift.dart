@@ -69,7 +69,7 @@ class ViewCampaignGiftScreenState extends State<ViewCampaignGiftScreen> {
   }
 
   loadData() async {
-    print("Load data");
+    print("Load data"); 
     GiftRepository repos = new GiftRepository();
     await repos.fetchGift(widget.campaignID).then((value) => setState(() {
           data = value;
