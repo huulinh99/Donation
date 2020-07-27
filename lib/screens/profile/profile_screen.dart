@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:donationsystem/models/custom_user/custom_user.dart';
+import 'package:donationsystem/screens/donate_history/donate_history.dart';
 import 'package:intl/intl.dart';
 import 'package:donationsystem/models/request_money/request_money.dart';
 import 'package:donationsystem/models/user/user.dart';
@@ -96,7 +97,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               backgroundImage: NetworkImage(user.image),
                             ),
                           ),
-
                           // Text(widget.currentUser.firstName +
                           //     " " +
                           //     widget.currentUser.lastName),
@@ -194,7 +194,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     margin: EdgeInsets.only(top: 30, bottom: 15),
                     padding: EdgeInsets.only(left: 10),
                     alignment: Alignment.centerLeft,
-                    child: Text(
+                    child: 
+                    Text(
                       "Your Campaign",
                       style: TextStyle(
                           fontSize: 18,
@@ -254,7 +255,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               "Request Money",
                               style: TextStyle(color: Colors.white),
                             ),
-                          )
+                          )                         
                         ],
                       ))
                 ],
@@ -362,9 +363,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     List<Container> render = new List();
     if (renderCampaign != null) {
       renderCampaign.forEach((element) {
-        render.add(Container(
+        render.add(
+          Container(
           padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-          child: Row(
+          child: InkWell(
+            onTap: () => {
+              Navigator.push(context,MaterialPageRoute(builder: (context) => DonateHistoryScreen(element.campaignId.toString())),)
+            },
+            child: Row(
             children: [
               Expanded(
                   flex: 9,
@@ -397,6 +403,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Text(element.careless.toString()),
               )
             ],
+          ),
           ),
         ));
       });

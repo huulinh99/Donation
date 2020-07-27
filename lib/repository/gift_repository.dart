@@ -57,58 +57,14 @@ class GiftRepository implements BaseGiftRepository {
     return token["deviceToken"];
   }
 
-  final String serverToken =
-      "AAAAySqQXNM:APA91bFlj_fsnmeZrS6sYEKXtrzo4hMjLM_NR31VuA4BuvxjVY106G73x94tL90TU_BQDcWgGpksSK7E4VJKzTRWqQSXdAue1xqLSTEFRuTj5b0mgZhI0YzWSOSxDUr76uuwG5HazNOa";
-  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
-
-  Future<Map<String, dynamic>> sendMessage(
-      String userId, String body, String title) async {
-    String token = await getToken(userId);
-
-    await http
-        .post(
-          'https://fcm.googleapis.com/fcm/send',
-          headers: <String, String>{
-            'Content-Type': 'application/json',
-            'Authorization': 'key=$serverToken',
-          },
-          body: jsonEncode(
-            <String, dynamic>{
-              'notification': <String, dynamic>{
-                'body': '$body',
-                'title': '$title'
-              },
-              'priority': 'high',
-              'data': <String, dynamic>{
-                'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-                'id': '1',
-                'status': 'done'
-              },
-              'to': '$token',
-            },
-          ),
-        )
-        .then((value) => print(value.body));
-
-    final Completer<Map<String, dynamic>> completer =
-        Completer<Map<String, dynamic>>();
-    firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        completer.complete(message);
-      },
-    );
-    return completer.future;
-  }
-
-  User user;
-  Future<User> getUserByCampaignId(int campaignId) async {
-    var response = await http.get(
-        "https://swdapi.azurewebsites.net/api/user/UserByCampaign/$campaignId");
+  
+  Future<int> getUserByCampaignId(int campaignId) async {
+    var response = await http.get("https://swdapi.azurewebsites.net/api/user/UserByCampaign/$campaignId");
+    int userId;
     if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      user = User.fromJson(data[0]);
-    }
-    return user;
+        userId = int.parse(response.body);
+      }
+      return userId;
   }
 
   Future<String> donate(int campaignId, double money, User userDonate) async {

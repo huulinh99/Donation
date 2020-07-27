@@ -77,18 +77,20 @@ class SideMenuState extends State<SideMenu> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           Align(
-            alignment: Alignment.topLeft,
-            child: CircleAvatar(
-              radius: 70,
-              backgroundColor: Color(0xff476cfb),
-              child: ClipOval(
-                child: SizedBox(
-                  width: 180.0,
-                  height: 180.0,
-                  child: user == null
-                      ? Text('')
-                      : Image.network(user.image, fit: BoxFit.fill),
-                ),
+            alignment:Alignment.topLeft,
+              child: CircleAvatar(
+                radius: 70,
+                backgroundColor:Color(0xff476cfb),
+                  child: ClipOval(
+                    child: SizedBox(
+                      width: 180.0,
+                      height: 180.0,
+                        child: user == null 
+                        ? Text('')
+                        :Image.network(user.image,
+                                fit: BoxFit.fill),
+                    ),
+                  ),
               ),
             ),
           ),
