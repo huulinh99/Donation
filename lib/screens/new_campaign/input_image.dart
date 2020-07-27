@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,9 +15,6 @@ class InputImageState extends State<InputImage> {
   final pageViewController = PageController();
   ImagePicker picker = ImagePicker();
   File displayImageFile;
-  String path;
-  String uploadPath;
-
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -44,7 +44,7 @@ class Campaign {
   }
 
   Map toJson() => {
-        'campaignId': campaignId,
+        'Id': campaignId,
         'campaignName': campaignName,
         'description': description,
         'careless': careless,

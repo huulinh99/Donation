@@ -1,5 +1,3 @@
-
-
 import 'package:donationsystem/models/user/user.dart';
 import 'package:donationsystem/repository/user_repository.dart';
 import 'package:donationsystem/models/category/category.dart';
@@ -38,12 +36,13 @@ class SideMenuState extends State<SideMenu> {
     this.fetchCategory();
     this.getCurrentUser();
   }
+
   List<String> tmpList = null;
   @override
   Future<List<String>> fetchCategory() async {
-    try{
-      final response = await http.get(
-          'https://swdapi.azurewebsites.net/api/Category');
+    try {
+      final response =
+          await http.get('https://swdapi.azurewebsites.net/api/Category');
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         tmpList = new List();
@@ -52,9 +51,9 @@ class SideMenuState extends State<SideMenu> {
         });
         return tmpList;
       }
-    }catch(e){
+    } catch (e) {
       print(e);
-    }finally{
+    } finally {
       return tmpList;
     }
   }
@@ -64,46 +63,44 @@ class SideMenuState extends State<SideMenu> {
     UserRepository userRepository = new UserRepository();
     String email;
     await auth.getCurrentUser().then((value) => email = value.email);
-    userRepository.fetchUserByEmail(email).then((value) => user = value).whenComplete(() => setState(() {
-      print(user.toString() + ' sfsdf');
-      }));
+    userRepository
+        .fetchUserByEmail(email)
+        .then((value) => user = value)
+        .whenComplete(() => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(     
-      child: Container(
+    return Drawer(
+        child: Container(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           Align(
-            alignment:Alignment.topLeft,
-              child: CircleAvatar(
-                radius: 70,
-                backgroundColor:Color(0xff476cfb),
-                  child: ClipOval(
-                    child: SizedBox(
-                      width: 180.0,
-                      height: 180.0,
-                        child: user == null
-                        ? Text('')
-                        :Image.network(user.image,
-                                fit: BoxFit.fill),
-                    ),
-                  ),
+            alignment: Alignment.topLeft,
+            child: CircleAvatar(
+              radius: 70,
+              backgroundColor: Color(0xff476cfb),
+              child: ClipOval(
+                child: SizedBox(
+                  width: 180.0,
+                  height: 180.0,
+                  child: user == null
+                      ? Text('')
+                      : Image.network(user.image, fit: BoxFit.fill),
+                ),
               ),
+            ),
           ),
-           Align(
-            alignment:Alignment.centerRight,
+          Align(
+              alignment: Alignment.centerRight,
               child: user == null
-                    ? Text('')
-                    :Text(
-                'Welcome, ${user.lastName}',
-                style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w400))
-          ),
+                  ? Text('')
+                  : Text('Welcome, ${user.lastName}',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w400))),
           ListTile(
             leading: Icon(Icons.home),
             title: Text('Home'),
@@ -149,7 +146,7 @@ class SideMenuState extends State<SideMenu> {
 
   renderSubMenu() {
     final List<Widget> tmp = new List();
-    if (clickCategory) {    
+    if (clickCategory) {
       tmpList.forEach((item) {
         tmp.add(Container(
           margin: EdgeInsets.fromLTRB(15, 0, 15, 5),
@@ -157,14 +154,15 @@ class SideMenuState extends State<SideMenu> {
           decoration: BoxDecoration(
               border:
                   Border(bottom: BorderSide(color: Colors.black, width: 0.4))),
-          child: 
-          GestureDetector(
-            onTap: () {this.widget.handelFragmentOption(item);
+          child: GestureDetector(
+            onTap: () {
+              this.widget.handelFragmentOption(item);
               Navigator.of(context).pop();
-              },
-            child:  ListTile(
-            title: Text(item),
-          ),),
+            },
+            child: ListTile(
+              title: Text(item),
+            ),
+          ),
         ));
       });
     }
@@ -177,5 +175,4 @@ class SideMenuState extends State<SideMenu> {
       clickCategory = !clickCategory;
     });
   }
-
 }

@@ -8,6 +8,8 @@ abstract class BaseCampaignRepository {
   Future<List<Campaign>> fetchCampaign();
   Future<List<Campaign>> fetchCampaignByFilter(String filterStatus);
   Future<List<Campaign>> fetchCampaignByCategory(String category);
+  Future<String> updateCampaign(Campaign campaign);
+  Future<String> deleteCampaign(int campaignId);
   //List<Campaign> fetchFakeCampaign();
 
 }
@@ -83,7 +85,6 @@ class CampaignRepository implements BaseCampaignRepository {
       url =
           "https://swdapi.azurewebsites.net/api/campaign/CampaignMostFavourite/-1";
     }
-    print(url);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       List data = json.decode(response.body);
@@ -103,6 +104,24 @@ class CampaignRepository implements BaseCampaignRepository {
     String passingJson = jsonEncode(campaign);
     Response response = await post(url, headers: headers, body: passingJson);
     return json.decode(response.body);
+  }
+
+  @override
+  Future<String> updateCampaign(Campaign campaign) async {
+    String url =
+        'https://swdapi.azurewebsites.net/api/campaign/${campaign.campaignId}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String passingJson = jsonEncode(campaign);
+    Response response = await put(url, headers: headers, body: passingJson);
+    return response.body;
+  }
+
+  @override
+  Future<String> deleteCampaign(int campaignId) async {
+    String url = 'https://swdapi.azurewebsites.net/api/campaign/${campaignId}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    Response response = await delete(url, headers: headers);
+    return response.body;
   }
 
   // @override

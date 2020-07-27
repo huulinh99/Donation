@@ -2,13 +2,10 @@ import 'dart:io';
 
 import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:donationsystem/models/category/category.dart';
-import 'package:donationsystem/models/gift/Gift.dart';
 import 'package:donationsystem/repository/category_repository.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+//import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class InputCampaignDetail extends StatefulWidget {
   final Function(Campaign) setCampaign;
@@ -137,12 +134,12 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
               padding: EdgeInsets.only(right: 150),
               child: FlatButton(
                   onPressed: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true,
-                        maxTime: limitStartTime, onConfirm: (date) {
-                      handelLimitEndTime(date);
-                      setState(() => {choiceStartTime = convertToString(date)});
-                    }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                    // DatePicker.showDatePicker(context,
+                    //     showTitleActions: true,
+                    //     maxTime: limitStartTime, onConfirm: (date) {
+                    //   handelLimitEndTime(date);
+                    //   setState(() => {choiceStartTime = convertToString(date)});
+                    // }, currentTime: DateTime.now(), locale: LocaleType.vi);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -167,12 +164,12 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
               padding: EdgeInsets.only(right: 150),
               child: FlatButton(
                   onPressed: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true,
-                        minTime: limitEndTime, onConfirm: (date) {
-                      handelLimitStartTime(date);
-                      setState(() => {choiceEndTime = convertToString(date)});
-                    }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                    // DatePicker.showDatePicker(context,
+                    //     showTitleActions: true,
+                    //     minTime: limitEndTime, onConfirm: (date) {
+                    //   handelLimitStartTime(date);
+                    //   setState(() => {choiceEndTime = convertToString(date)});
+                    // }, currentTime: DateTime.now(), locale: LocaleType.vi);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -199,12 +196,12 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
               padding: EdgeInsets.only(right: 150),
               child: FlatButton(
                   onPressed: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true,
-                        minTime: limitEndTime, onConfirm: (date) {
-                      handelLimitStartTime(date);
-                      setState(() => {choiceEndTime = convertToString(date)});
-                    }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                    // DatePicker.showDatePicker(context,
+                    //     showTitleActions: true,
+                    //     minTime: limitEndTime, onConfirm: (date) {
+                    //   handelLimitStartTime(date);
+                    //   setState(() => {choiceEndTime = convertToString(date)});
+                    // }, currentTime: DateTime.now(), locale: LocaleType.vi);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -293,12 +290,10 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
         }
       }
     });
-    print(tmp.toString() + "DAta");
     return tmp;
   }
 
   handelLimitEndTime(DateTime date) {
-    print(date.month);
     setState(() {
       limitEndTime = DateTime(date.year, date.month, date.day);
     });
@@ -327,7 +322,6 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
   }
 
   sendDataBack() {
-    print("sendDataBack " + choiceCategory.toString());
     Campaign tmp = new Campaign(
         amount: double.parse(amountController.text.trim()),
         campaignId: 0,

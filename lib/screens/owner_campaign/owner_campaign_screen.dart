@@ -1,17 +1,39 @@
+import 'dart:convert';
+
 import 'package:donationsystem/models/campaign/campaign.dart';
+import 'package:donationsystem/models/user/user.dart';
+import 'package:donationsystem/repository/campaign_repository.dart';
+import 'package:donationsystem/repository/user_repository.dart';
+import 'package:donationsystem/screens/edit_campaign/edit_campaign_screen.dart';
+import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart';
+import 'package:donationsystem/services/Auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class OwnerCampaignScreen extends StatefulWidget {
-  final List<Campaign> listCampaign;
-  OwnerCampaignScreen(this.listCampaign);
+  OwnerCampaignScreen();
   @override
   OwnerCampaignScreenState createState() => OwnerCampaignScreenState();
 }
 
 class OwnerCampaignScreenState extends State<OwnerCampaignScreen> {
+  List<Campaign> listCampaign;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (listCampaign == null) {
+      return Container(
+        decoration: BoxDecoration(color: Colors.white),
+        child: LoadingCircle(50, Colors.black),
+      );
+    }
     return Scaffold(
         body: SingleChildScrollView(
       child: Container(
@@ -40,7 +62,7 @@ class OwnerCampaignScreenState extends State<OwnerCampaignScreen> {
 
   renderCampaign() {
     List<Container> tmp = new List();
-    widget.listCampaign.forEach((element) {
+    listCampaign.forEach((element) {
       tmp.add(Container(
         width: MediaQuery.of(context).size.width,
         height: 490,
@@ -128,27 +150,38 @@ class OwnerCampaignScreenState extends State<OwnerCampaignScreen> {
                 maxLines: 4,
               ),
             ),
-            Divider(
-              color: Colors.black,
-              thickness: 0.5,
-              height: 1,
-            ),
             Container(
+              height: 50,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    child: DropdownButton<String>(
-                      hint: Text(
-                          'Choose a category'), // Not necessary for Option 1
-                      items: ["Active", "Not Active"].map((value) {
-                        return new DropdownMenuItem<String>(
-                          value: value,
-                          child: new Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (value) {},
+                      child: IconButton(
+                    icon: Icon(
+                      Icons.edit,
+                      color: Colors.blue,
+                      size: 30,
                     ),
-                  )
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditCampaignScreen(element)),
+                      ).whenComplete(() async {
+                        await loadData();
+                      })
+                    },
+                  )),
+                  Container(
+                      child: IconButton(
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                      size: 30,
+                    ),
+                    onPressed: () => deleteCampaign(element.campaignId),
+                  )),
                 ],
               ),
             )
@@ -161,5 +194,50 @@ class OwnerCampaignScreenState extends State<OwnerCampaignScreen> {
 
   convertDate(String date) {
     return date.split("T")[0];
+  }
+
+  deleteCampaign(int campaignID) async {
+    print("asdasdasd : " + campaignID.toString());
+    CampaignRepository repos = new CampaignRepository();
+    await repos
+        .deleteCampaign(campaignID)
+        .then((value) => print("DELETE $value"))
+        .whenComplete(() => loadData());
+  }
+
+  Future<String> loadData() async {
+    User user;
+    Auth auth = new Auth();
+    UserRepository userRepository = new UserRepository();
+    String email;
+    await auth.getCurrentUser().then((value) => email = value.email);
+    print("EMAIL ==== $email");
+    userRepository
+        .fetchUserByEmail(email)
+        .then((value) => setState(() {
+              user = value;
+            }))
+        .whenComplete(() async {
+      List tmp = new List();
+      email = user.email;
+
+      String url =
+          "https://swdapi.azurewebsites.net/api/campaign/CampaignOfUser/${email}";
+      try {
+        final response = await http.get(url);
+        if (response.statusCode == 200) {
+          List<dynamic> data = json.decode(response.body);
+          data.forEach((element) {
+            tmp.add(Campaign.fromJson(element));
+          });
+        }
+        setState(() {
+          listCampaign = new List<Campaign>.from(tmp);
+        });
+      } catch (e) {
+        print(e);
+      }
+      print("getCampaign ===================");
+    });
   }
 }

@@ -51,11 +51,9 @@ class GiftRepository implements BaseGiftRepository {
   }
 
   Future<String> getToken(String userId) async {
-    print(userId + " co user");
     var empData = await http.get(
         "https://prm391-project.herokuapp.com/api/accounts/gettoken/$userId");
     var token = json.decode(empData.body);
-    print(token);
     return token["deviceToken"];
   }
 
@@ -134,6 +132,23 @@ class GiftRepository implements BaseGiftRepository {
     Map<String, String> headers = {"Content-type": "application/json"};
     String passingJson = jsonEncode(gift);
     Response response = await post(url, headers: headers, body: passingJson);
+    return json.decode(response.body);
+  }
+
+  @override
+  updateGift(Gift gift) async {
+    String url = 'https://swdapi.azurewebsites.net/api/giftdetail/${gift.id}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String passingJson = jsonEncode(gift);
+    Response response = await put(url, headers: headers, body: passingJson);
+    return json.decode(response.body);
+  }
+
+  @override
+  Future<void> deleteGift(int giftId) async {
+    String url = 'https://swdapi.azurewebsites.net/api/giftdetail/${giftId}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    Response response = await delete(url, headers: headers);
     return json.decode(response.body);
   }
 }
