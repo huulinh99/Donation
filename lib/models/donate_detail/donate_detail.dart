@@ -2,7 +2,7 @@ class DonateDetail {
   int id;
   int campaignId;
   int userId;
-  int amount;
+  double amount;
   String date;
   int giftId;
 

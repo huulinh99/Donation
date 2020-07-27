@@ -100,14 +100,14 @@ Future<Map<String, dynamic>> sendMessage(String userId, String body, String titl
   );
   return completer.future;
 }
-  User user;
-  Future<User> getUserByCampaignId(int campaignId) async {
+  
+  Future<int> getUserByCampaignId(int campaignId) async {
     var response = await http.get("https://swdapi.azurewebsites.net/api/user/UserByCampaign/$campaignId");
+    int userId;
     if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        user = User.fromJson(data[0]);
+        userId = int.parse(response.body);
       }
-      return user;
+      return userId;
   }
 
   Future<String> donate(int campaignId, double money, User userDonate) async {

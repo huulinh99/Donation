@@ -85,7 +85,7 @@ class SideMenuState extends State<SideMenu> {
                     child: SizedBox(
                       width: 180.0,
                       height: 180.0,
-                        child: user == null
+                        child: user == null 
                         ? Text('')
                         :Image.network(user.image,
                                 fit: BoxFit.fill),

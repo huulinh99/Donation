@@ -8,6 +8,7 @@ import 'package:donationsystem/repository/donate_detail_repository.dart';
 import 'package:donationsystem/repository/gift_repository.dart';
 import 'package:donationsystem/repository/user_repository.dart';
 import 'package:donationsystem/services/Auth.dart';
+import 'package:donationsystem/services/Notification.dart';
 import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -26,6 +27,7 @@ class GiftDetailScreen extends StatefulWidget{
 
 class GiftDetailScreenState extends State<GiftDetailScreen>{
   GiftRepository giftRepository;
+  PushNotification notification = new PushNotification();
   DonateDetailRepository donateDetailRepository;
   User user;
   bool isDonated;
@@ -48,13 +50,6 @@ class GiftDetailScreenState extends State<GiftDetailScreen>{
     return user;
   }
 
-  Future<String> getToken(String userId) async {
-    print(userId + " co user");
-    var empData = await http.get("https://prm391-project.herokuapp.com/api/accounts/gettoken/$userId");
-    var token = json.decode(empData.body);
-    print(token);
-    return token["deviceToken"];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,9 +140,12 @@ class GiftDetailScreenState extends State<GiftDetailScreen>{
                           DateTime now = DateTime.now();
                           final DateFormat formatter = DateFormat('yyyy-MM-dd');
                           DonateDetail donateDetail = new DonateDetail.id(campaignId: int.parse(campaignId), userId: user.id,
-                          amount: widget.gift.amount.toInt(), date: formatter.format(now),giftId: widget.gift.id);
+                          amount: widget.gift.amount.toDouble(), date: formatter.format(now),giftId: widget.gift.id);
                           print(donateDetail.toString().toString() + " asdasd");
                           donateDetailRepository.donateDetail(donateDetail);
+                          int author;
+                          await giftRepository.getUserByCampaignId(int.parse(campaignId)).then((value) => author = value);  
+                          notification.sendMessage(author.toString(), '${user.firstName + " " + user.lastName}' + " " + "donated for you " + "${widget.gift.amount}" , "New notification");
                         });
                       },
                       color: Colors.black,
