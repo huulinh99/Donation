@@ -9,6 +9,7 @@ import 'package:donationsystem/models/user/user.dart';
 import 'package:donationsystem/repository/request_money_repository.dart';
 import 'package:donationsystem/screens/new_campaign/new_campaign_screen.dart';
 import 'package:donationsystem/repository/user_repository.dart';
+import 'package:donationsystem/screens/owner_campaign/owner_campaign_screen.dart';
 import 'package:donationsystem/services/Auth.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:http/http.dart' as http;
@@ -55,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  Future<List<Campaign>> getCampaign() async {
+  Future<String> getCampaign() async {
     List tmp = new List();
     String email = user.email;
     String url =
@@ -68,7 +69,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           tmp.add(Campaign.fromJson(element));
         });
       }
-      print(tmp);
       setState(() {
         renderCampaign = new List<Campaign>.from(tmp);
       });
@@ -203,19 +203,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontWeight: FontWeight.w600),
                     ),
                   ),
-                  Container(
-                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 15),
-                      decoration:
-                          BoxDecoration(color: Colors.white, boxShadow: [
-                        BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 1,
-                            spreadRadius: 2,
-                            offset: Offset(1, 1))
-                      ]),
-                      child: Column(
-                        children: renderListCampagin(),
-                      )),
+                  GestureDetector(
+                    onTap: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OwnerCampaignScreen()),
+                      )
+                    },
+                    child: Container(
+                        margin:
+                            EdgeInsets.only(left: 10, right: 10, bottom: 15),
+                        decoration:
+                            BoxDecoration(color: Colors.white, boxShadow: [
+                          BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 1,
+                              spreadRadius: 2,
+                              offset: Offset(1, 1))
+                        ]),
+                        child: Column(
+                          children: renderListCampagin(),
+                        )),
+                  ),
                   Container(
                       margin: EdgeInsets.only(left: 10, right: 10, bottom: 15),
                       decoration: BoxDecoration(
@@ -325,13 +335,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     RaisedButton(
-                      onPressed: ()  {
-                          DateTime now = DateTime.now();
-                          final DateFormat formatter = DateFormat('yyyy-MM-dd');
-                          RequestMoney requestMoney = new RequestMoney.id(description: txtDescription.text, 
-                          money: int.parse(txtMoney.text),date: formatter.format(now), userId: user.id);
-                          print(requestMoney.toString().toString() + " asdasd");
-                          requestMoneyRepository.requestMoney(requestMoney);
+                      onPressed: () {
+                        DateTime now = DateTime.now();
+                        final DateFormat formatter = DateFormat('yyyy-MM-dd');
+                        RequestMoney requestMoney = new RequestMoney.id(
+                            description: txtDescription.text,
+                            money: int.parse(txtMoney.text),
+                            date: formatter.format(now),
+                            userId: user.id);
+
+                        requestMoneyRepository.requestMoney(requestMoney);
                       },
                       child: Text(
                         'Send Request',
@@ -350,7 +363,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     List<Container> render = new List();
     if (renderCampaign != null) {
       renderCampaign.forEach((element) {
-        print(element);
         render.add(
           Container(
           padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),

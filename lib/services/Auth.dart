@@ -60,9 +60,7 @@ class Auth implements BaseAuth {
       AuthResult result = await _firebaseAuth
           .signInWithEmailAndPassword(
               email: email.toString().trim(), password: password)
-          .then((value) {
-        print("RESULT $value");
-      });
+          .then((value) {});
       userRepository
           .fetchUserByEmail(email.toString().trim())
           .then((value) => currentUser = value);

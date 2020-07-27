@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,9 +15,6 @@ class InputImageState extends State<InputImage> {
   final pageViewController = PageController();
   ImagePicker picker = ImagePicker();
   File displayImageFile;
-  String path;
-  String uploadPath;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,14 +51,15 @@ class InputImageState extends State<InputImage> {
                           color: Colors.black54,
                         ),
                       ],
-                      fontSize: 26,
+                      fontSize: 30,
                       fontFamily: "roboto",
                       fontWeight: FontWeight.w400,
                       decoration: TextDecoration.none))),
           Container(
               child: RaisedButton(
+            color: Colors.white,
             onPressed: () => getImage(),
-            child: Text("Picked"),
+            child: Text("Pick"),
           ))
         ],
       ),

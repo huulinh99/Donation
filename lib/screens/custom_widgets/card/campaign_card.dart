@@ -1,4 +1,3 @@
-
 import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:donationsystem/repository/campaign_repository.dart';
 import 'package:flutter/material.dart';
@@ -11,33 +10,30 @@ class CampaignCard extends StatefulWidget {
   final String description;
   final int careless;
   final String image;
-  CampaignCard(this.title, this.ownerId, this.description, this.careless, this.image);
+  CampaignCard(
+      this.title, this.ownerId, this.description, this.careless, this.image);
 
   @override
   _CampaignCardState createState() => _CampaignCardState();
-
 }
-
-
 
 class _CampaignCardState extends State<CampaignCard> {
   CampaignRepository campaignRepository = new CampaignRepository();
   bool isFavourite = false;
   Color _iconColor = Color.fromRGBO(0, 0, 0, .4);
-  
-  
+
   @override
-   Future<Campaign> fetchNewestCampaign() async {    
-     Campaign campaign; 
-      final response = await http.get(
-          'https://swdapi.azurewebsites.net/api/campaign/CampaignsNewest/1');
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        campaign = Campaign.fromJson(data[0]);
-      }
-      return campaign;
-      
+  Future<Campaign> fetchNewestCampaign() async {
+    Campaign campaign;
+    final response = await http
+        .get('https://swdapi.azurewebsites.net/api/campaign/CampaignsNewest/1');
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      campaign = Campaign.fromJson(data[0]);
+    }
+    return campaign;
   }
+
   Campaign campaignNew;
   void initState() {
     // TODO: implement initState
@@ -46,7 +42,7 @@ class _CampaignCardState extends State<CampaignCard> {
   }
 
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.fromLTRB(5, 0, 5, 15),
         decoration: BoxDecoration(color: Colors.white, boxShadow: [
@@ -55,7 +51,8 @@ class _CampaignCardState extends State<CampaignCard> {
             spreadRadius: 2,
             blurRadius: 1,
             offset: Offset(1, 1), // changes position of shadow
-            )]),
+          )
+        ]),
         child: Column(
           children: [
             Container(
@@ -73,34 +70,38 @@ class _CampaignCardState extends State<CampaignCard> {
                 Container(
                   margin: EdgeInsets.fromLTRB(0, 16, 0, 8),
                   padding: const EdgeInsets.only(left: 15),
-                  child: Text("${widget.title}", style: Theme.of(context).textTheme.headline5, overflow: TextOverflow.ellipsis, ),
+                  child: Text(
+                    "${widget.title}",
+                    style: Theme.of(context).textTheme.headline5,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 Container(
-                    child:
-                    Text(
-                        '${widget.ownerId}',
-                        style: TextStyle(fontFamily: 'Montserrat', fontSize: 15, fontWeight: FontWeight.w600)),
-                        padding: const EdgeInsets.only(left: 15),
+                  child: Text('${widget.ownerId}',
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600)),
+                  padding: const EdgeInsets.only(left: 15),
                 ),
                 Container(
+                  height: 105,
                   padding: new EdgeInsets.fromLTRB(15, 5, 15, 0),
                   child: Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vulputate finibus dignissim. Vestibulum ut elit in turpis condimentum gravida. Aenean sodales, dui efficitur gravida...",
+                    widget.description,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 4,
                     softWrap: true,
-                    style: TextStyle(height: 1.75, fontWeight: FontWeight.normal, fontSize: 15),
+                    style: TextStyle(
+                        height: 1.75,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15),
                   ),
-
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 5),
-                  padding: EdgeInsets.only(left: 15, right: 15),
-                  child: Divider(
-                      thickness: 1,
-                      color: Colors.black
-                  )
-                ),
+                    margin: EdgeInsets.only(top: 5),
+                    padding: EdgeInsets.only(left: 15, right: 15),
+                    child: Divider(thickness: 1, color: Colors.black)),
                 Container(
                     padding: EdgeInsets.only(left: 15, right: 15),
                     child: Row(
@@ -110,51 +111,45 @@ class _CampaignCardState extends State<CampaignCard> {
                           flex: 8,
                           child: Text("View more..."),
                         ),
-
                         IconButton(
                           icon: putFavourite(),
                           onPressed: handelFavourite,
                         ),
                         Text("${widget.careless}")
                       ],
-                    )
-                ),
-
+                    )),
               ],
-          )],
-        )
-    );
+            )
+          ],
+        ));
   }
-  void favouriteCampaign(){
-    if(_iconColor == Color.fromRGBO(0, 0, 0, .4)){
+
+  void favouriteCampaign() {
+    if (_iconColor == Color.fromRGBO(0, 0, 0, .4)) {
       this.setState(() {
         _iconColor = Colors.red;
       });
-    }else{
+    } else {
       this.setState(() {
         _iconColor = Color.fromRGBO(0, 0, 0, .4);
       });
     }
   }
-  handelFavourite(){
-    print(isFavourite);
+
+  handelFavourite() {
     setState(() {
       isFavourite = !isFavourite;
     });
   }
 
-  putFavourite(){
-    if(isFavourite == true){
-      return Icon(
-          Icons.favorite_border
-      );
-    }else{
+  putFavourite() {
+    if (isFavourite == true) {
+      return Icon(Icons.favorite_border);
+    } else {
       return Icon(
         Icons.favorite,
         color: Colors.red,
       );
     }
   }
-
-
 }

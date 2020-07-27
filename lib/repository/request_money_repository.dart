@@ -12,21 +12,18 @@ abstract class BaseCategoryRepository {
 }
 
 class RequestMoneyRepository implements BaseCategoryRepository {
-
   @override
   Future<String> requestMoney(RequestMoney requestMoney) async {
     String url = 'https://swdapi.azurewebsites.net/api/RequestMoney';
     Map<String, String> headers = {"Content-type": "application/json"};
     String json = jsonEncode(requestMoney.toJson());
-    print(json);
     Response response = await post(url, headers: headers, body: json);
     int statusCode = response.statusCode;
-    print(statusCode.toString() + " request");
     String body = response.body;
     return body;
   }
 
-  // Future<String> _addActor(AccountDTO dto) async { 
+  // Future<String> _addActor(AccountDTO dto) async {
   //   String url = 'https://prm391-project.herokuapp.com/api/accounts';
   //   Map<String, String> headers = {"Content-type": "application/json"};
   //   String json = jsonEncode(dto);

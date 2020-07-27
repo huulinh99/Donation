@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:donationsystem/models/campaign/campaign.dart';
+import 'package:donationsystem/models/category/category.dart';
+import 'package:donationsystem/repository/category_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+//import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class InputCampaignDetail extends StatefulWidget {
   final Function(Campaign) setCampaign;
@@ -20,10 +21,10 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
   String choiceEndTime = "";
   DateTime limitEndTime;
   DateTime limitStartTime;
-  List<String> listCategory = new List();
+  List<CategoryModel> listCategory;
   final nameController = TextEditingController();
   final amountController = TextEditingController();
-  String choiceCategory;
+  CategoryModel choiceCategory;
   final descriptionController = TextEditingController();
 
   @override
@@ -35,15 +36,15 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
 
     choiceEndTime = convertToString(DateTime.now());
     limitEndTime = DateTime.now();
-
-    listCategory.add("Youtube");
-    listCategory.add("Streaming");
-    listCategory.add("Gamming");
+    fetchCategory();
   }
 
   //https://swdapi.azurewebsites.net/api/Category
   @override
   Widget build(BuildContext context) {
+    if (listCategory == null && choiceCategory == null) {
+      return Container();
+    }
     return Scaffold(
         body: SingleChildScrollView(
             child: Container(
@@ -133,12 +134,12 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
               padding: EdgeInsets.only(right: 150),
               child: FlatButton(
                   onPressed: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true,
-                        maxTime: limitStartTime, onConfirm: (date) {
-                      handelLimitEndTime(date);
-                      setState(() => {choiceStartTime = convertToString(date)});
-                    }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                    // DatePicker.showDatePicker(context,
+                    //     showTitleActions: true,
+                    //     maxTime: limitStartTime, onConfirm: (date) {
+                    //   handelLimitEndTime(date);
+                    //   setState(() => {choiceStartTime = convertToString(date)});
+                    // }, currentTime: DateTime.now(), locale: LocaleType.vi);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -163,12 +164,12 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
               padding: EdgeInsets.only(right: 150),
               child: FlatButton(
                   onPressed: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true,
-                        minTime: limitEndTime, onConfirm: (date) {
-                      handelLimitStartTime(date);
-                      setState(() => {choiceEndTime = convertToString(date)});
-                    }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                    // DatePicker.showDatePicker(context,
+                    //     showTitleActions: true,
+                    //     minTime: limitEndTime, onConfirm: (date) {
+                    //   handelLimitStartTime(date);
+                    //   setState(() => {choiceEndTime = convertToString(date)});
+                    // }, currentTime: DateTime.now(), locale: LocaleType.vi);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -195,12 +196,12 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
               padding: EdgeInsets.only(right: 150),
               child: FlatButton(
                   onPressed: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true,
-                        minTime: limitEndTime, onConfirm: (date) {
-                      handelLimitStartTime(date);
-                      setState(() => {choiceEndTime = convertToString(date)});
-                    }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                    // DatePicker.showDatePicker(context,
+                    //     showTitleActions: true,
+                    //     minTime: limitEndTime, onConfirm: (date) {
+                    //   handelLimitStartTime(date);
+                    //   setState(() => {choiceEndTime = convertToString(date)});
+                    // }, currentTime: DateTime.now(), locale: LocaleType.vi);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -210,16 +211,18 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
                           child: DropdownButton<String>(
                             hint: Text(
                                 'Choose a category'), // Not necessary for Option 1
-                            //value: _selectedLocation,
-                            items: listCategory.map((String value) {
+                            value: choiceCategory.name,
+                            items: listCategory.map((CategoryModel value) {
                               return new DropdownMenuItem<String>(
-                                value: value,
-                                child: new Text(value),
+                                value: value.name,
+                                child: new Text(value.name),
                               );
                             }).toList(),
                             onChanged: (value) {
+                              CategoryModel tmp = getCategoryByName(value);
+
                               setState(() {
-                                choiceCategory = value;
+                                choiceCategory = tmp;
                               });
                             },
                           )),
@@ -270,7 +273,7 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
                                     borderRadius: new BorderRadius.circular(4),
                                     side: BorderSide(color: Colors.white)),
                                 onPressed: () => sendDataBack(),
-                                child: Text('Start Campaign',
+                                child: Text('Continue',
                                     style: TextStyle(color: Colors.white))))))
               ],
             )
@@ -278,8 +281,19 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
     )));
   }
 
+  getCategoryByName(String name) {
+    CategoryModel tmp;
+    listCategory.forEach((element) {
+      if (element != null) {
+        if (element.name == name) {
+          tmp = element;
+        }
+      }
+    });
+    return tmp;
+  }
+
   handelLimitEndTime(DateTime date) {
-    print(date.month);
     setState(() {
       limitEndTime = DateTime(date.year, date.month, date.day);
     });
@@ -319,17 +333,19 @@ class InputCampaignDetailState extends State<InputCampaignDetail> {
         firstName: "",
         lastName: "",
         image: "",
-        categoryId: 1,
+        categoryId: choiceCategory.id,
+        userId: 0,
         startDate: convertToReverse(choiceEndTime));
-    widget.setCampaign(
-      tmp,
-    );
+    widget.setCampaign(tmp);
   }
 
-  fetchCategory() {
-    List<Text> tmp = new List();
-    if (listCategory != null) {
-    } else {}
-    return tmp;
+  fetchCategory() async {
+    CategoryRepository repo = new CategoryRepository();
+    await repo.fetchCategory().then((value) {
+      setState(() {
+        listCategory = value;
+        choiceCategory = value[0];
+      });
+    });
   }
 }
