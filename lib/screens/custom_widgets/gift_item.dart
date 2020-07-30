@@ -33,7 +33,7 @@ class GiftItemState extends State<GiftItem> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Expanded(
-                        flex: 3,
+                        flex: 2,
                         child: Container(
                             padding: EdgeInsets.only(top: 10),
                             width: MediaQuery.of(context).size.width,
@@ -44,14 +44,17 @@ class GiftItemState extends State<GiftItem> {
                             )),
                       ),
                       Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: Container(
-                          padding: EdgeInsets.only(left: 10,top: 30),
+                          padding: EdgeInsets.only(left: 5,top: 30),
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height,
                           child: Text(widget.gift.giftName,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,
-                              style:TextStyle(fontSize: 18, color: Colors.black)),
+                              style:TextStyle(fontSize: 15, color: Colors.black,
+                              fontFamily: 'Roboto')),
                         ),
                       ),
                       Expanded(
@@ -64,7 +67,7 @@ class GiftItemState extends State<GiftItem> {
                                   Text(widget.gift.amount.toString(),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          fontSize: 18, color: Colors.black)),
+                                          fontSize: 14, color: Colors.black)),
                                 ]),
                           )
                           ),

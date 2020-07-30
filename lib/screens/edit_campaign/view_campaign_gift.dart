@@ -40,6 +40,28 @@ class ViewCampaignGiftScreenState extends State<ViewCampaignGiftScreen> {
           ),
         ),
         Container(
+          child: Row(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(left: 20),
+                child: Text("Image",
+                style: TextStyle(fontSize: 16, color: Colors.black,
+                              fontFamily: 'Roboto'),),
+                ),
+              Container(
+                margin: EdgeInsets.only(left: 70),
+                child: Text("Name",
+                style: TextStyle(fontSize: 16, color: Colors.black,
+                              fontFamily: 'Roboto')),),
+              Container(
+                margin: EdgeInsets.only(left: 40),
+                child: Text("Amount",
+                style: TextStyle(fontSize: 16, color: Colors.black,
+                              fontFamily: 'Roboto')),),
+            ],
+          ),
+        ),
+        Container(
             height: MediaQuery.of(context).size.height - 188,
             child: SingleChildScrollView(
                 child: Column(

@@ -100,6 +100,8 @@ class OwnerCampaignScreenState extends State<OwnerCampaignScreen> {
               padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: Text(
                 element.campaignName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontSize: 24,
                     fontFamily: "Roboto",

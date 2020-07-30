@@ -73,14 +73,20 @@ class _DonateHistoryScreenState extends State<DonateHistoryScreen> {
               child: Column(
                 children: [
                   Container(
+                    padding: EdgeInsets.only(top : 20),
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                       margin: EdgeInsets.only(left: 10, right: 10, bottom: 15),
-                      child: Column(
+                      child: listDonateDetail.length==0
+                      ? Column(                      
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: renderListCampagin(),
-                      )),
+                      )
+                      :Column(
+                        children: renderListCampagin(),
+                      )
+                      ),
                 ],
               ),
             )),
@@ -141,7 +147,7 @@ class _DonateHistoryScreenState extends State<DonateHistoryScreen> {
         children: <Widget>[
           Text(
             "No donate yet !",
-            style: TextStyle(color: Colors.black, fontFamily: "roboto", fontSize: 20,),
+            style: TextStyle(color: Colors.black, fontFamily: "roboto", fontSize: 22,),
             textAlign: TextAlign.center,
           ),
         ],
