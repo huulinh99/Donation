@@ -103,6 +103,7 @@ class CampaignScreenState extends State<CampaignScreen> {
         GestureDetector(
           onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => CampaignDetailScreen(item)),)},
           child: CampaignCard(
+              item.campaignId,
               item.campaignName,
               item.firstName.toString() +
                   " " +

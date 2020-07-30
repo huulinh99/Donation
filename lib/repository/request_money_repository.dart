@@ -19,6 +19,7 @@ class RequestMoneyRepository implements BaseCategoryRepository {
     String json = jsonEncode(requestMoney.toJson());
     Response response = await post(url, headers: headers, body: json);
     int statusCode = response.statusCode;
+    print(statusCode);
     String body = response.body;
     return body;
   }

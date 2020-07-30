@@ -26,11 +26,11 @@ class _GiftCardState extends State<GiftCard> {
       child: Row(
         children: [
           Expanded(
-            flex: 4,
+            flex: 5,
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child: Image.network(widget.gift.image, fit: BoxFit.fill,),
+              child: Image.network(widget.gift.image, fit: BoxFit.cover,),
             )
           ),
           Expanded(

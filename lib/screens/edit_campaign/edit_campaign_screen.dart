@@ -5,6 +5,7 @@ import 'package:donationsystem/repository/category_repository.dart';
 import 'package:donationsystem/screens/edit_campaign/view_campaign_gift.dart';
 import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter/material.dart';
 
 class EditCampaignScreen extends StatefulWidget {
@@ -151,12 +152,12 @@ class EditCampaignState extends State<EditCampaignScreen> {
                 padding: EdgeInsets.only(right: 150),
                 child: FlatButton(
                     onPressed: () {
-                      // DatePicker.showDatePicker(context,
-                      //     showTitleActions: true,
-                      //     maxTime: limitStartTime, onConfirm: (date) {
-                      //   handelLimitEndTime(date);
-                      //   setState(() => {choiceStartTime = convertToString(date)});
-                      // }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                      DatePicker.showDatePicker(context,
+                          showTitleActions: true,
+                          maxTime: limitStartTime, onConfirm: (date) {
+                        handelLimitEndTime(date);
+                        setState(() => {choiceStartTime = convertToString(date)});
+                      }, currentTime: DateTime.now(), locale: LocaleType.vi);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -181,12 +182,12 @@ class EditCampaignState extends State<EditCampaignScreen> {
                 padding: EdgeInsets.only(right: 150),
                 child: FlatButton(
                     onPressed: () {
-                      // DatePicker.showDatePicker(context,
-                      //     showTitleActions: true,
-                      //     minTime: limitEndTime, onConfirm: (date) {
-                      //   handelLimitStartTime(date);
-                      //   setState(() => {choiceEndTime = convertToString(date)});
-                      // }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                      DatePicker.showDatePicker(context,
+                          showTitleActions: true,
+                          minTime: limitEndTime, onConfirm: (date) {
+                        handelLimitStartTime(date);
+                        setState(() => {choiceEndTime = convertToString(date)});
+                      }, currentTime: DateTime.now(), locale: LocaleType.vi);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -213,12 +214,12 @@ class EditCampaignState extends State<EditCampaignScreen> {
                 padding: EdgeInsets.only(right: 150),
                 child: FlatButton(
                     onPressed: () {
-                      // DatePicker.showDatePicker(context,
-                      //     showTitleActions: true,
-                      //     minTime: limitEndTime, onConfirm: (date) {
-                      //   handelLimitStartTime(date);
-                      //   setState(() => {choiceEndTime = convertToString(date)});
-                      // }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                      DatePicker.showDatePicker(context,
+                          showTitleActions: true,
+                          minTime: limitEndTime, onConfirm: (date) {
+                        handelLimitStartTime(date);
+                        setState(() => {choiceEndTime = convertToString(date)});
+                      }, currentTime: DateTime.now(), locale: LocaleType.vi);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -334,6 +335,18 @@ class EditCampaignState extends State<EditCampaignScreen> {
         ),
       ),
     );
+  }
+
+    handelLimitEndTime(DateTime date) {
+    setState(() {
+      limitEndTime = DateTime(date.year, date.month, date.day);
+    });
+  }
+
+  handelLimitStartTime(DateTime date) {
+    setState(() {
+      limitStartTime = DateTime(date.year, date.month, date.day);
+    });
   }
 
   updateCampaign() async {

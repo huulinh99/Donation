@@ -42,7 +42,7 @@ class _UserCardState extends State<UserCard> {
                 widget.avatar,
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
               Positioned(
                   bottom: 5,

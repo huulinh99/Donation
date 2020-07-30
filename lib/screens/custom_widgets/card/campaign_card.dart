@@ -2,16 +2,18 @@ import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:donationsystem/repository/campaign_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'dart:convert';
 
 class CampaignCard extends StatefulWidget {
+  final int campaignId;
   final String title;
   final String ownerId;
   final String description;
   final int careless;
   final String image;
   CampaignCard(
-      this.title, this.ownerId, this.description, this.careless, this.image);
+      this.campaignId,this.title, this.ownerId, this.description, this.careless, this.image);
 
   @override
   _CampaignCardState createState() => _CampaignCardState();
@@ -32,6 +34,15 @@ class _CampaignCardState extends State<CampaignCard> {
       campaign = Campaign.fromJson(data[0]);
     }
     return campaign;
+  }
+
+  @override
+  Future<String> updateCampaign(int campaignId) async {
+    String url =
+        'https://swdapi.azurewebsites.net/api/campaign/LikeCampaign/$campaignId';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    Response response = await put(url, headers: headers);
+    return response.body;
   }
 
   Campaign campaignNew;
@@ -113,7 +124,12 @@ class _CampaignCardState extends State<CampaignCard> {
                         ),
                         IconButton(
                           icon: putFavourite(),
-                          onPressed: handelFavourite,
+                          onPressed: (){
+                            updateCampaign(widget.campaignId);
+                            setState(() {
+                              isFavourite = !isFavourite;
+                            });
+                          },
                         ),
                         Text("${widget.careless}")
                       ],
@@ -136,11 +152,6 @@ class _CampaignCardState extends State<CampaignCard> {
     }
   }
 
-  handelFavourite() {
-    setState(() {
-      isFavourite = !isFavourite;
-    });
-  }
 
   putFavourite() {
     if (isFavourite == true) {

@@ -21,7 +21,6 @@ class ViewCampaignGiftScreenState extends State<ViewCampaignGiftScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     loadData();
   }
@@ -36,7 +35,7 @@ class ViewCampaignGiftScreenState extends State<ViewCampaignGiftScreen> {
         Container(
           margin: EdgeInsets.only(bottom: 20),
           child: Text(
-            "View Actor",
+            "View Gift",
             style: TextStyle(fontSize: 24),
           ),
         ),
@@ -59,7 +58,7 @@ class ViewCampaignGiftScreenState extends State<ViewCampaignGiftScreen> {
             },
             color: Colors.black,
             child: Text(
-              "Add Actor",
+              "Add Gift",
               style: TextStyle(color: Colors.white),
             ),
           ),

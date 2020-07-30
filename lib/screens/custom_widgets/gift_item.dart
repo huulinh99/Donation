@@ -18,22 +18,22 @@ class GiftItemState extends State<GiftItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 90,
       decoration: BoxDecoration(
           border: Border(bottom: BorderSide(width: 0.7, color: Colors.black))),
       margin: EdgeInsets.only(top: 5),
       child: Row(
         children: <Widget>[
           Expanded(
-              flex: 6,
-              child: Container(
+              flex: 4,
+              child: Container(                
                   padding: EdgeInsets.only(left: 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Expanded(
-                        flex: 4,
+                        flex: 3,
                         child: Container(
                             padding: EdgeInsets.only(top: 10),
                             width: MediaQuery.of(context).size.width,
@@ -44,21 +44,20 @@ class GiftItemState extends State<GiftItem> {
                             )),
                       ),
                       Expanded(
-                        flex: 4,
+                        flex: 2,
                         child: Container(
-                          padding: EdgeInsets.only(top: 10),
+                          padding: EdgeInsets.only(left: 10,top: 30),
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height,
                           child: Text(widget.gift.giftName,
                               textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.black)),
+                              style:TextStyle(fontSize: 18, color: Colors.black)),
                         ),
                       ),
                       Expanded(
-                          flex: 4,
+                          flex: 1,
                           child: Container(
-                            padding: EdgeInsets.only(left: 5, top: 10),
+                            padding: EdgeInsets.only(left: 5, top: 30,right: 3),
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
@@ -67,7 +66,8 @@ class GiftItemState extends State<GiftItem> {
                                       style: TextStyle(
                                           fontSize: 18, color: Colors.black)),
                                 ]),
-                          )),
+                          )
+                          ),
                     ],
                   ))),
           Expanded(

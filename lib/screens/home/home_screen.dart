@@ -7,6 +7,8 @@ import 'package:donationsystem/screens/custom_widgets/card/campaign_card.dart';
 import 'package:donationsystem/screens/custom_widgets/card/user_card.dart';
 import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart';
 import 'package:donationsystem/screens/home/home_screen_view_model.dart';
+import 'package:donationsystem/screens/user/user_more_screen.dart';
+import 'package:donationsystem/screens/user/user_propular_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -190,7 +192,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                         padding: new EdgeInsets.only(left: 10, top: 15),
                         alignment: Alignment.centerRight,
-                        child: Row(
+                        child: GestureDetector(
+                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserMoreScreen()),),
+                          child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
@@ -205,7 +209,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child:
                                 Icon(Icons.arrow_forward, size: 18))
                           ],
-                        )),
+                        )
+                        )
+                        ),
                   ],)
             )
           ],
@@ -220,6 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => CampaignDetailScreen(element)),)},
             child:
             new CampaignCard(
+                element.campaignId,
                 element.campaignName,
                 element.firstName.toString() +
                     " " +
@@ -232,35 +239,35 @@ class _HomeScreenState extends State<HomeScreen> {
     return tmp;
   }
 
-  convertUserItems() { 
-    print(listUser.toString() + " sdasd");
-    List<GestureDetector> tmp = new List();
-    List<Row> tmpList = new List();
-    if(listUser == null){
-      return tmpList;
-    }else{
-    listUser.forEach((element) {
-      tmpList.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            GestureDetector(
-                onTap: () => {},
-                child:
-                new UserCard(
-                    element.image,
-                    element.firstName + " " + element.lastName,
-                    element.count
-                )
-            ),
-          ],
-        )
-    );
-    })   ;
-    }
-    return tmpList;
-  }
+  // convertUserItems() { 
+  //   print(listUser.toString() + " sdasd");
+  //   List<GestureDetector> tmp = new List();
+  //   List<Row> tmpList = new List();
+  //   if(listUser == null){
+  //     return tmpList;
+  //   }else{
+  //   listUser.forEach((element) {
+  //     tmpList.add(
+  //       Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //         crossAxisAlignment: CrossAxisAlignment.stretch,
+  //         children: <Widget>[
+  //           GestureDetector(
+  //               onTap: () => {},
+  //               child:
+  //               new UserCard(
+  //                   element.image,
+  //                   element.firstName + " " + element.lastName,
+  //                   element.count
+  //               )
+  //           ),
+  //         ],
+  //       )
+  //   );
+  //   })   ;
+  //   }
+  //   return tmpList;
+  // }
   renderNewestCampaignCarousel() {
       return StreamBuilder(
         stream: homeScreenViewModel.listNewestCampaignStream,
@@ -292,15 +299,37 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   renderMostFavouriteUserCarousel() {
+    if(listUser == null){
+       return Container();
+    }else{
     return Container(
       child: new CarouselSlider(
-          items: convertUserItems(),
+          items: listUser.map((imageUrl){
+              return Builder (
+                  builder: (BuildContext context){
+                    print(imageUrl.userId.toString() + " haha k co id");
+                    return 
+                    InkWell(        
+                      onTap: ()=> {Navigator.push(context, MaterialPageRoute(builder: (context) => UserPopularScreen(imageUrl.userId.toString(), imageUrl.email.toString())),)},
+                      child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.symmetric(horizontal: 10.0),
+                      child: UserCard(
+                    imageUrl.image,
+                    imageUrl.firstName + " " + imageUrl.lastName,
+                    imageUrl.count
+                    )
+                    )
+                    );   
+                  });
+            }).toList(),
           options: CarouselOptions(
             height: 215,
-            initialPage: 2,
+            initialPage: 0,
             enableInfiniteScroll: false,
         ))
     );
+  }
   }
 
 }

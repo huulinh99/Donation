@@ -78,6 +78,7 @@ class CampaignByCategoryScreenState extends State<CampaignByCategoryScreen> {
                 )
               },
           child: CampaignCard(
+              item.campaignId,
               item.campaignName,
               item.firstName.toString() + " " + item.lastName.toString(),
               item.description,

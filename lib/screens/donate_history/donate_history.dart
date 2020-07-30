@@ -4,6 +4,7 @@ import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:donationsystem/models/custom_user/custom_user.dart';
 import 'package:donationsystem/models/donate_detail/donate_detail_custom.dart';
 import 'package:donationsystem/repository/donate_detail_repository.dart';
+import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart';
 import 'package:intl/intl.dart';
 import 'package:donationsystem/models/request_money/request_money.dart';
 import 'package:donationsystem/models/user/user.dart';
@@ -62,6 +63,9 @@ class _DonateHistoryScreenState extends State<DonateHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if(listDonateDetail == null){
+      return Container(decoration: BoxDecoration(color: Colors.white),child: LoadingCircle(50, Colors.black),);
+     }
       return Scaffold(
         body: Container(
             decoration: BoxDecoration(color: Colors.white),
@@ -69,16 +73,12 @@ class _DonateHistoryScreenState extends State<DonateHistoryScreen> {
               child: Column(
                 children: [
                   Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
                       margin: EdgeInsets.only(left: 10, right: 10, bottom: 15),
-                      decoration:
-                          BoxDecoration(color: Colors.white, boxShadow: [
-                        BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 1,
-                            spreadRadius: 2,
-                            offset: Offset(1, 1))
-                      ]),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: renderListCampagin(),
                       )),
                 ],
@@ -89,12 +89,11 @@ class _DonateHistoryScreenState extends State<DonateHistoryScreen> {
 
 
   renderListCampagin() {
-    List<Container> render = new List();
-    if(listDonateDetail == null){
-  print(" nul vccc");      
+    List<Widget> render = new List();
+    if(listDonateDetail == null){ 
         return render;
     }else{
-      print(" co chayyy vccc");
+      if(listDonateDetail.length != 0){
       listDonateDetail.forEach((element) {             
           render.add(
           Container(
@@ -134,8 +133,22 @@ class _DonateHistoryScreenState extends State<DonateHistoryScreen> {
             ],
           ),
         ));           
-      });
+      }
+      );
+    }else{
+      render.add(Center(child: Container(
+      child: Column(
+        children: <Widget>[
+          Text(
+            "No donate yet !",
+            style: TextStyle(color: Colors.black, fontFamily: "roboto", fontSize: 20,),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    ),));
     }       
+    }
     return render;
   }
 }

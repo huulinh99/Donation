@@ -68,14 +68,28 @@ class UserRepository implements BaseCategoryRepository {
   }
 
   @override
+  Future<User> fetchUserById(String userId) async {
+    User user;
+    final response = await http
+        .get('https://swdapi.azurewebsites.net/api/user/UserById/$userId');
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      user = User.fromJson(data[0]);
+    }
+    return user;
+  }
+
+  @override
   Future<UserCustom> fetchUserProfile(String email) async {
     UserCustom user;
     final response = await http
         .get('https://swdapi.azurewebsites.net/api/user/TotalCampaign/$email');
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
+      print(data.toString() + " user ne haha");
       user = UserCustom.fromJson(data[0]);
     }
+    print(user.toString() + " user ne haha");
     return user;
   }
 

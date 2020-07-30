@@ -27,6 +27,7 @@ class Auth implements BaseAuth {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   UserRepository userRepository = new UserRepository();
+  
   @override
   Stream<String> get onAuthStateChanged {
     return _firebaseAuth.onAuthStateChanged.map((user) => user?.uid);

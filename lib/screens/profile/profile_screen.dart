@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:donationsystem/models/campaign/campaign.dart';
 import 'package:donationsystem/models/custom_user/custom_user.dart';
-import 'package:donationsystem/screens/donate_history/donate_history.dart';
+import 'package:donationsystem/screens/effects/loading_cricle/LoadingCircle.dart';
 import 'package:intl/intl.dart';
 import 'package:donationsystem/models/request_money/request_money.dart';
 import 'package:donationsystem/models/user/user.dart';
@@ -11,7 +11,6 @@ import 'package:donationsystem/screens/new_campaign/new_campaign_screen.dart';
 import 'package:donationsystem/repository/user_repository.dart';
 import 'package:donationsystem/screens/owner_campaign/owner_campaign_screen.dart';
 import 'package:donationsystem/services/Auth.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -263,7 +262,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             )),
       );
     } else {
-      return Container();
+      return Container(
+        child: LoadingCircle(50, Colors.black),
+        decoration: BoxDecoration(
+          color: Colors.white
+        ),
+      );
     }
   }
 
