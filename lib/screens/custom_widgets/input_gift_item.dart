@@ -43,9 +43,9 @@ class GiftInputItemScreenState extends State<GiftInputItemScreen> {
       nameController.text = widget.gift.giftName.trim();
       amountController.text = widget.gift.amount.toString();
       descriptionController.text = widget.gift.description.trim();
-      title = "Update Actor";
+      title = "Update Gift";
     } else {
-      title = "New Actor";
+      title = "New Gift";
     }
   }
 
