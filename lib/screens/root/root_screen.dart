@@ -11,10 +11,16 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class RootScreen extends StatelessWidget {
+class RootScreen extends StatefulWidget {
+  @override
+  RootScreenState createState() => RootScreenState();
+}
+
+class RootScreenState extends State {
   final Auth auth = new Auth();
   UserRepository userRepository = new UserRepository();
   User currentUser;
+  bool onMessage = false;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   @override
   void initState() {
@@ -37,6 +43,12 @@ class RootScreen extends StatelessWidget {
     _firebaseMessaging.onTokenRefresh.listen((data) {
       print('Refresh Token: $data');
     }, onDone: () => print('Refresh Token Done'));
+  }
+
+  setMessage() {
+    this.setState(() {
+      onMessage = false;
+    });
   }
 
   @override

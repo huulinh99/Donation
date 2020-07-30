@@ -59,6 +59,21 @@ class _MainScreenState extends State<MainScreen> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
+        var data = message["notification"];
+        showDialog(
+            context: context,
+            builder: (_) => new AlertDialog(
+                  title: new Text("New Donate !"),
+                  content: new Text(data["body"]),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Close me!'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                ));
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
