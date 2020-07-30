@@ -193,8 +193,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     margin: EdgeInsets.only(top: 30, bottom: 15),
                     padding: EdgeInsets.only(left: 10),
                     alignment: Alignment.centerLeft,
-                    child: 
-                    Text(
+                    child: Text(
                       "Your Campaign",
                       style: TextStyle(
                           fontSize: 18,
@@ -254,7 +253,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               "Request Money",
                               style: TextStyle(color: Colors.white),
                             ),
-                          )                         
+                          )
                         ],
                       ))
                 ],
@@ -264,9 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } else {
       return Container(
         child: LoadingCircle(50, Colors.black),
-        decoration: BoxDecoration(
-          color: Colors.white
-        ),
+        decoration: BoxDecoration(color: Colors.white),
       );
     }
   }
@@ -339,8 +336,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     RaisedButton(
-                      onPressed: () {
-                        print("SDF sdfsdfsdSDF");
+                      onPressed: () async {
                         DateTime now = DateTime.now();
                         final DateFormat formatter = DateFormat('yyyy-MM-dd');
                         RequestMoney requestMoney = new RequestMoney.id(
@@ -348,8 +344,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             money: int.parse(txtMoney.text),
                             date: formatter.format(now),
                             userId: user.id);
-                            print(requestMoney.toString());
-                        requestMoneyRepository.requestMoney(requestMoney);
+                        await requestMoneyRepository
+                            .requestMoney(requestMoney)
+                            .whenComplete(() => Navigator.of(context).pop());
                       },
                       child: Text(
                         'Send Request',
@@ -368,10 +365,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     List<Container> render = new List();
     if (renderCampaign != null) {
       renderCampaign.forEach((element) {
-        render.add(
-          Container(
-          padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),        
-            child: Row(
+        render.add(Container(
+          padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+          child: Row(
             children: [
               Expanded(
                   flex: 9,
@@ -382,6 +378,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Container(
                         child: Text(
                           element.campaignName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 19,
                               fontFamily: "roboto",
@@ -390,7 +388,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       Container(
                         child: Text(
-                          element.startDate + "~" + element.endDate,
+                          element.startDate.split("T")[0] +
+                              "~" +
+                              element.endDate.split("T")[0],
                           style: TextStyle(
                               fontSize: 14,
                               fontFamily: "roboto",

@@ -83,6 +83,7 @@ class _CampaignCardState extends State<CampaignCard> {
                   padding: const EdgeInsets.only(left: 15),
                   child: Text(
                     "${widget.title}",
+                    maxLines: 1,
                     style: Theme.of(context).textTheme.headline5,
                     overflow: TextOverflow.ellipsis,
                   ),

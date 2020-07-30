@@ -124,7 +124,7 @@ class _DonateHistoryScreenState extends State<DonateHistoryScreen> {
                         ),
                         Container(
                           child: Text(
-                            element.date,
+                            element.date.split("T")[0],
                             style: TextStyle(
                                 fontSize: 14,
                                 fontFamily: "roboto",
