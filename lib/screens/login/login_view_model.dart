@@ -10,27 +10,31 @@ class LoginViewModel extends ChangeNotifier {
   final _passwordSubject = BehaviorSubject<String>();
   final _btnLoginSubject = BehaviorSubject<bool>();
 
-  var emailValidation = 
-    StreamTransformer<String, String>.fromHandlers(handleData: (email, sink){
-      sink.add(Validation.validateEmail(email));
-    });
-  var passwordValidation =
-  StreamTransformer<String, String>.fromHandlers(handleData: (password, sink){
+  var emailValidation =
+      StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
+    sink.add(Validation.validateEmail(email));
+  });
+  var passwordValidation = StreamTransformer<String, String>.fromHandlers(
+      handleData: (password, sink) {
     sink.add(Validation.validatePassword(password));
   });
-  
-  Stream<String> get emailStream => _emailSubject.stream.transform(emailValidation);
+
+  Stream<String> get emailStream =>
+      _emailSubject.stream.transform(emailValidation);
   Sink<String> get emailSink => _emailSubject.sink;
 
-  Stream<String> get passwordStream => _passwordSubject.stream.transform(passwordValidation);
+  Stream<String> get passwordStream =>
+      _passwordSubject.stream.transform(passwordValidation);
   Sink<String> get passwordSink => _passwordSubject.sink;
 
   Stream<bool> get btnLoginStream => _btnLoginSubject.stream;
   Sink<bool> get btnLoginSink => _btnLoginSubject.sink;
 
-  LoginViewModel(){
-    Observable.combineLatest2(_emailSubject, _passwordSubject, (email, password) {
-      return Validation.validateEmail(email) == null && Validation.validatePassword(password) == null ;
+  LoginViewModel() {
+    Observable.combineLatest2(_emailSubject, _passwordSubject,
+        (email, password) {
+      return Validation.validateEmail(email) == null &&
+          Validation.validatePassword(password) == null;
     }).listen((result) {
       btnLoginSink.add(result);
     });
@@ -44,15 +48,4 @@ class LoginViewModel extends ChangeNotifier {
     _btnLoginSubject.close();
     _passwordSubject.close();
   }
-//  Future<void> signIn(String email, String password) async {
-//    Auth auth = new Auth();
-//    final results =  await auth.signIn(email, password);
-//    if(results == "SUCCESS"){
-//      print(results);
-//      notifyListeners();
-//    }else{
-//      print(results);
-//    }
-//  }
-
 }

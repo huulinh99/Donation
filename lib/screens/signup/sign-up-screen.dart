@@ -42,23 +42,40 @@ class SignUpScreenState extends State<SignUpScreen> {
         body: Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      padding: EdgeInsets.only(left: 50, right: 50, top: 150),
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(
-                "assets/images/banner0.jpg",
-              ),
-              fit: BoxFit.fill)),
+      padding: EdgeInsets.only(left: 50, right: 50, top: 100),
+      decoration: BoxDecoration(color: Colors.black87),
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.all(20),
-              child: Text("Sign Up",
-                  style: TextStyle(fontSize: 25, color: Colors.white)),
-            ),
+                margin: EdgeInsets.all(20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text("Sign",
+                        style: TextStyle(
+                            fontSize: 34,
+                            fontFamily: "Roboto",
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(1, 1),
+                                blurRadius: 3.0,
+                                color: Colors.black,
+                              ),
+                            ])),
+                    Text("Up",
+                        style: TextStyle(
+                            fontSize: 38,
+                            fontFamily: "Roboto",
+                            color: Colors.orangeAccent,
+                            fontWeight: FontWeight.w400,
+                            shadows: [])),
+                  ],
+                )),
             Container(
                 alignment: Alignment.centerLeft,
                 child: Column(
@@ -69,24 +86,34 @@ class SignUpScreenState extends State<SignUpScreen> {
                       margin: EdgeInsets.only(bottom: 5),
                       child: Text("Your Name",
                           textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 16, color: Colors.white)),
+                          style: TextStyle(
+                              fontFamily: "Roboto",
+                              fontSize: 16,
+                              color: Colors.white)),
                     ),
                     Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: TextFormField(
-                        controller: userNameController,
-                        textAlignVertical: TextAlignVertical.center,
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(12),
-                          focusedBorder: InputBorder.none,
-                          //prefixIcon: Icon(Icons.account_box, color: Colors.black)
-                        ),
-                      ),
-                    )
+                        height: 40,
+                        child: TextFormField(
+                          controller: userNameController,
+                          textAlignVertical: TextAlignVertical.center,
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 10),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                            ),
+                            //border: Border.all(color: Colors.white, width: 1),
+                          ),
+                        ))
                   ],
                 )),
             Container(
@@ -99,24 +126,34 @@ class SignUpScreenState extends State<SignUpScreen> {
                       margin: EdgeInsets.only(bottom: 5, top: 8),
                       child: Text("Email",
                           textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 16, color: Colors.white)),
+                          style: TextStyle(
+                              fontFamily: "Roboto",
+                              fontSize: 16,
+                              color: Colors.white)),
                     ),
                     Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: TextFormField(
-                        controller: emailController,
-                        textAlignVertical: TextAlignVertical.center,
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(12),
-                          focusedBorder: InputBorder.none,
-                          //prefixIcon: Icon(Icons.account_box, color: Colors.black)
-                        ),
-                      ),
-                    )
+                        height: 40,
+                        child: TextFormField(
+                          controller: emailController,
+                          textAlignVertical: TextAlignVertical.center,
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 10),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                            ),
+                            //border: Border.all(color: Colors.white, width: 1),
+                          ),
+                        ))
                   ],
                 )),
             Container(
@@ -129,26 +166,35 @@ class SignUpScreenState extends State<SignUpScreen> {
                       margin: EdgeInsets.only(bottom: 5, top: 8),
                       child: Text("Password",
                           textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 16, color: Colors.white)),
+                          style: TextStyle(
+                              fontFamily: "Roboto",
+                              fontSize: 16,
+                              color: Colors.white)),
                     ),
                     Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: TextFormField(
-                        controller: passwordController,
-                        textAlignVertical: TextAlignVertical.center,
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(12),
-                          focusedBorder: InputBorder.none,
-
-                          //prefixIcon: Icon(Icons.account_box, color: Colors.black)
-                        ),
-                      ),
-                    )
+                        height: 40,
+                        child: TextFormField(
+                          controller: passwordController,
+                          textAlignVertical: TextAlignVertical.center,
+                          obscureText: true,
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 10),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                            ),
+                            //border: Border.all(color: Colors.white, width: 1),
+                          ),
+                        ))
                   ],
                 )),
             Container(
@@ -161,35 +207,45 @@ class SignUpScreenState extends State<SignUpScreen> {
                       margin: EdgeInsets.only(bottom: 5, top: 8),
                       child: Text("Confirm Password",
                           textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 16, color: Colors.white)),
+                          style: TextStyle(
+                              fontFamily: "Roboto",
+                              fontSize: 16,
+                              color: Colors.white)),
                     ),
                     Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: TextFormField(
-                        controller: confirmPasswordController,
-                        textAlignVertical: TextAlignVertical.center,
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(12),
-                          focusedBorder: InputBorder.none,
-                          //prefixIcon: Icon(Icons.account_box, color: Colors.black)
-                        ),
-                      ),
-                    )
+                        height: 40,
+                        child: TextFormField(
+                          controller: confirmPasswordController,
+                          obscureText: true,
+                          textAlignVertical: TextAlignVertical.center,
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 10),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                            ),
+                            //border: Border.all(color: Colors.white, width: 1),
+                          ),
+                        ))
                   ],
                 )),
             Container(
-              margin: EdgeInsets.only(top: 10, bottom: 10),
+              margin: EdgeInsets.only(top: 25, bottom: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                      width: 80,
-                      height: 80,
+                      width: 50,
+                      height: 50,
                       margin: EdgeInsets.only(right: 15),
                       child: handleImage()),
                   RaisedButton(
@@ -204,19 +260,20 @@ class SignUpScreenState extends State<SignUpScreen> {
             ),
             Container(
                 margin: EdgeInsets.only(top: 15),
+                height: 40,
                 child: ButtonTheme(
                   buttonColor: Colors.transparent,
                   focusColor: Colors.transparent,
                   minWidth: 220.0,
                   hoverColor: Colors.transparent,
                   child: RaisedButton(
-                      color: Colors.black,
+                      color: Colors.white,
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(4),
-                          side: BorderSide(color: Colors.white)),
+                          side: BorderSide(color: Colors.black)),
                       onPressed: () => signUp(),
                       child: Text('Sign Up',
-                          style: TextStyle(color: Colors.white))),
+                          style: TextStyle(color: Colors.black))),
                 )),
           ],
         ),
@@ -245,7 +302,7 @@ class SignUpScreenState extends State<SignUpScreen> {
       );
     } else {
       return Image.asset(
-        "assets/images/banner0.jpg",
+        "assets/images/user.png",
         fit: BoxFit.fill,
       );
     }

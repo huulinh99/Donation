@@ -92,7 +92,7 @@ class EditCampaignState extends State<EditCampaignScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.only(top: 60, left: 20, right: 20),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Column(
@@ -156,7 +156,8 @@ class EditCampaignState extends State<EditCampaignScreen> {
                           showTitleActions: true,
                           maxTime: limitStartTime, onConfirm: (date) {
                         handelLimitEndTime(date);
-                        setState(() => {choiceStartTime = convertToString(date)});
+                        setState(
+                            () => {choiceStartTime = convertToString(date)});
                       }, currentTime: DateTime.now(), locale: LocaleType.vi);
                     },
                     child: Row(
@@ -337,7 +338,7 @@ class EditCampaignState extends State<EditCampaignScreen> {
     );
   }
 
-    handelLimitEndTime(DateTime date) {
+  handelLimitEndTime(DateTime date) {
     setState(() {
       limitEndTime = DateTime(date.year, date.month, date.day);
     });
@@ -373,10 +374,7 @@ class EditCampaignState extends State<EditCampaignScreen> {
         userId: 0);
 
     CampaignRepository repos = new CampaignRepository();
-    await repos
-        .updateCampaign(campaign)
-        .then((value) => print("THIS IS VALUE $value"))
-        .whenComplete(() {
+    await repos.updateCampaign(campaign).whenComplete(() {
       setState(() {
         loadingData = false;
       });

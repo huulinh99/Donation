@@ -149,9 +149,6 @@ class GiftDetailScreenState extends State<GiftDetailScreen> {
                                 amount: widget.gift.amount.toDouble(),
                                 date: formatter.format(now),
                                 giftId: widget.gift.id);
-                            print(
-                                donateDetail.toString().toString() + " asdasd");
-                            donateDetailRepository.donateDetail(donateDetail);
                             int author;
                             await giftRepository
                                 .getUserByCampaignId(int.parse(campaignId))

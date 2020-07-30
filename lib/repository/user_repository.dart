@@ -16,8 +16,8 @@ class UserRepository implements BaseCategoryRepository {
   Future<List<User>> fetchUserMostFavourite() async {
     List<User> tmpList = null;
     try {
-      final response =
-          await http.get('https://swdapi.azurewebsites.net/api/User/UserMostFavourite');
+      final response = await http
+          .get('https://swdapi.azurewebsites.net/api/User/UserMostFavourite');
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         tmpList = new List();
@@ -37,8 +37,8 @@ class UserRepository implements BaseCategoryRepository {
   Future<List<Campaign>> fetchCampaignForUser(String userId) async {
     List<Campaign> tmpList = null;
     try {
-      final response =
-          await http.get('https://swdapi.azurewebsites.net/api/campaign/CampaignOfUser/$userId');
+      final response = await http.get(
+          'https://swdapi.azurewebsites.net/api/campaign/CampaignOfUser/$userId');
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         tmpList = new List();
@@ -53,7 +53,6 @@ class UserRepository implements BaseCategoryRepository {
       return tmpList;
     }
   }
-  
 
   @override
   Future<User> fetchUserByEmail(String email) async {
@@ -86,16 +85,13 @@ class UserRepository implements BaseCategoryRepository {
         .get('https://swdapi.azurewebsites.net/api/user/TotalCampaign/$email');
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-      print(data.toString() + " user ne haha");
       user = UserCustom.fromJson(data[0]);
     }
-    print(user.toString() + " user ne haha");
     return user;
   }
 
-
   //test
-  
+
   @override
   Future<String> insertUser(User user) async {
     String url = 'https://swdapi.azurewebsites.net/api/user';

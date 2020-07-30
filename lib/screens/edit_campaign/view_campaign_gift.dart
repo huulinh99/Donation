@@ -44,20 +44,28 @@ class ViewCampaignGiftScreenState extends State<ViewCampaignGiftScreen> {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(left: 20),
-                child: Text("Image",
-                style: TextStyle(fontSize: 16, color: Colors.black,
-                              fontFamily: 'Roboto'),),
+                child: Text(
+                  "Image",
+                  style: TextStyle(
+                      fontSize: 16, color: Colors.black, fontFamily: 'Roboto'),
                 ),
+              ),
               Container(
                 margin: EdgeInsets.only(left: 70),
                 child: Text("Name",
-                style: TextStyle(fontSize: 16, color: Colors.black,
-                              fontFamily: 'Roboto')),),
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontFamily: 'Roboto')),
+              ),
               Container(
                 margin: EdgeInsets.only(left: 40),
                 child: Text("Amount",
-                style: TextStyle(fontSize: 16, color: Colors.black,
-                              fontFamily: 'Roboto')),),
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontFamily: 'Roboto')),
+              ),
             ],
           ),
         ),
@@ -90,7 +98,6 @@ class ViewCampaignGiftScreenState extends State<ViewCampaignGiftScreen> {
   }
 
   loadData() async {
-    print("Load data"); 
     GiftRepository repos = new GiftRepository();
     await repos.fetchGift(widget.campaignID).then((value) => setState(() {
           data = value;

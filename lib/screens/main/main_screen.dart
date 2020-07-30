@@ -52,10 +52,10 @@ class _MainScreenState extends State<MainScreen> {
       mainScreenViewModel.searchValueSink.add(searchValue.text);
     });
 
-    _firebaseMessaging.autoInitEnabled().then((bool enabled) => print(enabled));
-    _firebaseMessaging.setAutoInitEnabled(true).then((_) => _firebaseMessaging
-        .autoInitEnabled()
-        .then((bool enabled) => print(enabled)));
+    _firebaseMessaging.autoInitEnabled();
+    _firebaseMessaging
+        .setAutoInitEnabled(true)
+        .then((_) => _firebaseMessaging.autoInitEnabled());
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
@@ -67,9 +67,7 @@ class _MainScreenState extends State<MainScreen> {
         print("onResume: $message");
       },
     );
-    _firebaseMessaging.onTokenRefresh.listen((data) {
-      print('Refresh Token: $data');
-    }, onDone: () => print('Refresh Token Done'));
+    _firebaseMessaging.onTokenRefresh.listen((data) {}, onDone: () => {});
   }
 
   @override

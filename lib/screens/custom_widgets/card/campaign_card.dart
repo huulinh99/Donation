@@ -12,8 +12,8 @@ class CampaignCard extends StatefulWidget {
   final String description;
   final int careless;
   final String image;
-  CampaignCard(
-      this.campaignId,this.title, this.ownerId, this.description, this.careless, this.image);
+  CampaignCard(this.campaignId, this.title, this.ownerId, this.description,
+      this.careless, this.image);
 
   @override
   _CampaignCardState createState() => _CampaignCardState();
@@ -124,7 +124,7 @@ class _CampaignCardState extends State<CampaignCard> {
                         ),
                         IconButton(
                           icon: putFavourite(),
-                          onPressed: (){
+                          onPressed: () {
                             updateCampaign(widget.campaignId);
                             setState(() {
                               isFavourite = !isFavourite;
@@ -151,7 +151,6 @@ class _CampaignCardState extends State<CampaignCard> {
       });
     }
   }
-
 
   putFavourite() {
     if (isFavourite == true) {

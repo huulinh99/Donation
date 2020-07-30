@@ -80,120 +80,126 @@ class OwnerCampaignScreenState extends State<OwnerCampaignScreen> {
           ],
         ),
         margin: EdgeInsets.only(bottom: 15),
-        child:InkWell(
+        child: InkWell(
           onTap: () => {
-              Navigator.push(context,MaterialPageRoute(builder: (context) => DonateHistoryScreen(element.campaignId.toString())),)
-            },
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 250,
-              child: Image.network(
-                element.image,
-                fit: BoxFit.fill,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: Text(
-                element.campaignName,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontSize: 24,
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.w400),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              margin: EdgeInsets.only(top: 5, bottom: 2),
-              child: Text(
-                  convertDate(element.startDate) +
-                      " ~ " +
-                      convertDate(element.endDate),
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: "Roboto",
-                      fontWeight: FontWeight.w400,
-                      color: Colors.red)),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-              child: Row(
-                children: [
-                  Container(
-                    child: Text(
-                        element.currentlyMoney.toString() +
-                            "\$/" +
-                            element.amount.toString() +
-                            "\$",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: "Roboto",
-                            fontWeight: FontWeight.w400)),
-                  ),
-                  // Container(
-                  //   child: Text(
-                  //     element.careless.toString(),
-                  //     style: TextStyle(),
-                  //     overflow: TextOverflow.ellipsis,
-                  //     maxLines: 3,
-                  //   ),
-                  // ),
-                ],
-              ),
-            ),
-            Container(
-              height: 90,
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: Text(
-                element.description,
-                style: TextStyle(),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 4,
-              ),
-            ),
-            Container(
-              height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                      child: IconButton(
-                    icon: Icon(
-                      Icons.edit,
-                      color: Colors.blue,
-                      size: 30,
-                    ),
-                    onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditCampaignScreen(element)),
-                      ).whenComplete(() async {
-                        await loadData();
-                      })
-                    },
-                  )),
-                  Container(
-                      child: IconButton(
-                    icon: Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                      size: 30,
-                    ),
-                    onPressed: () => deleteCampaign(element.campaignId),
-                  )),
-                ],
-              ),
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      DonateHistoryScreen(element.campaignId.toString())),
             )
-          ],
-        ),
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 250,
+                child: Image.network(
+                  element.image,
+                  fit: BoxFit.fill,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: Text(
+                  element.campaignName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontFamily: "Roboto",
+                      fontWeight: FontWeight.w400),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                margin: EdgeInsets.only(top: 5, bottom: 2),
+                child: Text(
+                    convertDate(element.startDate) +
+                        " ~ " +
+                        convertDate(element.endDate),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: "Roboto",
+                        fontWeight: FontWeight.w400,
+                        color: Colors.red)),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                child: Row(
+                  children: [
+                    Container(
+                      child: Text(
+                          element.currentlyMoney.toString() +
+                              "\$/" +
+                              element.amount.toString() +
+                              "\$",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: "Roboto",
+                              fontWeight: FontWeight.w400)),
+                    ),
+                    // Container(
+                    //   child: Text(
+                    //     element.careless.toString(),
+                    //     style: TextStyle(),
+                    //     overflow: TextOverflow.ellipsis,
+                    //     maxLines: 3,
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 90,
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Text(
+                  element.description,
+                  style: TextStyle(),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 4,
+                ),
+              ),
+              Container(
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        child: IconButton(
+                      icon: Icon(
+                        Icons.edit,
+                        color: Colors.blue,
+                        size: 30,
+                      ),
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  EditCampaignScreen(element)),
+                        ).whenComplete(() async {
+                          await loadData();
+                        })
+                      },
+                    )),
+                    Container(
+                        child: IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                        size: 30,
+                      ),
+                      onPressed: () => deleteCampaign(element.campaignId),
+                    )),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ));
     });
@@ -205,12 +211,8 @@ class OwnerCampaignScreenState extends State<OwnerCampaignScreen> {
   }
 
   deleteCampaign(int campaignID) async {
-    print("asdasdasd : " + campaignID.toString());
     CampaignRepository repos = new CampaignRepository();
-    await repos
-        .deleteCampaign(campaignID)
-        .then((value) => print("DELETE $value"))
-        .whenComplete(() => loadData());
+    await repos.deleteCampaign(campaignID).whenComplete(() => loadData());
   }
 
   Future<String> loadData() async {
@@ -219,7 +221,6 @@ class OwnerCampaignScreenState extends State<OwnerCampaignScreen> {
     UserRepository userRepository = new UserRepository();
     String email;
     await auth.getCurrentUser().then((value) => email = value.email);
-    print("EMAIL ==== $email");
     userRepository
         .fetchUserByEmail(email)
         .then((value) => setState(() {
@@ -245,7 +246,6 @@ class OwnerCampaignScreenState extends State<OwnerCampaignScreen> {
       } catch (e) {
         print(e);
       }
-      print("getCampaign ===================");
     });
   }
 }

@@ -123,7 +123,7 @@ class NewCampaignScreenState extends State<NewCampaignScreen> {
     String imageName = user.id.toString() + "_" + campaign.campaignName;
     storageReference =
         FirebaseStorage.instance.ref().child('campaigns/$imageName.jpg');
-    await uploadFile(storageReference);
+    await uploadFile(storageReference, displayImageFile);
     storageReference.getDownloadURL().then((value) async {
       campaign.image = value;
     }).whenComplete(() async {
@@ -136,7 +136,7 @@ class NewCampaignScreenState extends State<NewCampaignScreen> {
             StorageReference giftReference = FirebaseStorage.instance
                 .ref()
                 .child('gifts/$giftImageName.jpg');
-            await uploadFile(giftReference);
+            await uploadFile(giftReference, element.uploadFile);
             element.campaignID = value;
             await giftReference
                 .getDownloadURL()
@@ -159,8 +159,9 @@ class NewCampaignScreenState extends State<NewCampaignScreen> {
     });
   }
 
-  Future<String> uploadFile(StorageReference storageReference) async {
-    StorageUploadTask uploadTask = storageReference.putFile(displayImageFile);
+  Future<String> uploadFile(
+      StorageReference storageReference, File fileUpload) async {
+    StorageUploadTask uploadTask = storageReference.putFile(fileUpload);
     await uploadTask.onComplete.then((value) => print(value));
   }
 }

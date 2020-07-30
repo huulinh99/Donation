@@ -25,18 +25,16 @@ class DonateDetailRepository implements BaseCategoryRepository {
   }
 
   Future<List<DonateDetailCustom>> getDonateDetail(String campaignId) async {
-    
     List<DonateDetailCustom> donateHistory = new List();
     String url =
         "https://swdapi.azurewebsites.net/api/DonateDetail/${campaignId}";
     try {
       final response = await http.get(url);
-      if (response.statusCode == 200) {       
+      if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         data.forEach((element) {
           donateHistory.add(DonateDetailCustom.fromJson(element));
-        });      
-        print(donateHistory);
+        });
         return donateHistory;
       }
     } catch (e) {
